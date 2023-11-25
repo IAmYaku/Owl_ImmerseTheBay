@@ -522,7 +522,7 @@ public class GR_Stock : GameRule
                     {
                         if (GlobalConfiguration.Instance.GetDeviceCount() >= 1)
                         {
-                            other.GetComponent<Player>().enableController(joystickNumber, GlobalConfiguration.Instance.GetJoystickAt(joystickNumber - 1));
+                           // other.GetComponent<Player>().enableController(joystickNumber, GlobalConfiguration.Instance.GetJoystickAt(joystickNumber - 1));
                         }
                         else
                         {
@@ -546,7 +546,7 @@ public class GR_Stock : GameRule
                 {
                     if (other.GetComponent<Player>().hasAI && other.GetComponent<Player>().isOut == false)
                     {
-                        other.GetComponent<Player>().enableController(joystickNumber, GlobalConfiguration.Instance.GetJoystickAt(joystickNumber - 1));
+                       // other.GetComponent<Player>().enableController(joystickNumber, GlobalConfiguration.Instance.GetJoystickAt(joystickNumber - 1));
                         // Destroy(other.transform.GetChild(0).transform.GetChild(0).gameObject);
                         //   GameObject aura = Instantiate(player.transform.GetChild(0).transform.GetChild(0).gameObject, other.transform.GetChild(0));
                         // aura.SetActive(true);

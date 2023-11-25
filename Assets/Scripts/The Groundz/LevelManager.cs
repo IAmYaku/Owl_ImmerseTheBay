@@ -75,6 +75,12 @@ public class LevelManager : MonoBehaviour
     public bool team2Wins;
 
     public int team1Points;
+
+    internal void SetStage(Stage stage_in)
+    {
+        stage = stage_in;
+    }
+
     public int team2Points;
 
     bool team1Scored;
@@ -115,8 +121,17 @@ public class LevelManager : MonoBehaviour
          audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         
         // if not tms
-        tm1 = GlobalConfiguration.Instance.team1Object.GetComponent<TeamManager>();
-        tm2 = GlobalConfiguration.Instance.team2Object.GetComponent<TeamManager>();
+        if (!tm1)
+        {
+            tm1 = GlobalConfiguration.Instance.team1Object.GetComponent<TeamManager>();
+        }
+
+        if (!tm2)
+        {
+            tm2 = GlobalConfiguration.Instance.team2Object.GetComponent<TeamManager>();
+        }
+       
+       
 
         countDown = countDownNum;
 
@@ -419,25 +434,23 @@ public class LevelManager : MonoBehaviour
         SetTeamSpawnLocations(2, stage.GetSpawnLocations(2, tm2.GetPlayerCount()));
        // SetTeamRetreatPoints(1, stage.GetSpawnLocations(1, tm1.playerCount));
       //  SetTeamRetreatPoints(1, stage.GetSpawnLocations(2, tm2.playerCount));
-        SetPlayerUI(1, tm1.GetPlayerCount());
-        SetPlayerUI(2, tm2.GetPlayerCount());
-        SetTeamScoreUI(1);
-        SetTeamScoreUI(2);
+       // SetPlayerUI(1, tm1.GetPlayerCount());
+      //  SetPlayerUI(2, tm2.GetPlayerCount());
+      //  SetTeamScoreUI(1);
+      //  SetTeamScoreUI(2);
 
-        SetLogFeed();
-        SetTimer();
+      //  SetLogFeed();
+      //  SetTimer();
 
-        InstantiateBalls();
+      //  InstantiateBalls();
 
-        tm1.StandByPlayers(false);
-        tm2.StandByPlayers(false);
+      //  tm1.StandByPlayers(false);
+      //  tm2.StandByPlayers(false);
 
         //GetReferee or game rule
 
-        start = true;
-        ready = true;                                         // just needed for a few older references.. should strike to see when updating
-
-        postGameScript = GameObject.Find("PostGamePanelContainer").GetComponent<PostGameScreen>();
+       // start = true;
+       //  ready = true;                                         
 
         print("Level Loaded");
     }
@@ -550,10 +563,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void SetStage(Stage x)
-    {
-        stage = x;
-    }
 
     public void SetUICanvas(CanvasGeneralGame x)
     {
@@ -587,39 +596,18 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    internal void SetIsAtScene(bool v)
-    {
-        isAtScene = v;
-
-
-    }
-
-    internal void SetSceneIndex(int x)
-    {
-        sceneIndex = x;
-
-      if( scenesVisited.ContainsKey(sceneIndex)) {
-            print("Scene  index " + sceneIndex + " visited");
-        }
-      else
-        {
-            scenesVisited.Add(sceneIndex, true);
-        }
-
-        print("Scene Index: " + x + " loaded..");
-    }
 
     internal void SetTeamSpawnLocations(int team, List<Vector3> spawnPoints)
     {
         if (team == 1)
         {
             tm1.MoveToSpawnPoints(spawnPoints);
-            tm1.FaceOpp(1);
+           // tm1.FaceOpp(1);
         }
         if (team == 2)
         {
             tm2.MoveToSpawnPoints(spawnPoints);
-            tm2.FaceOpp(2);
+          //  tm2.FaceOpp(2);
         }
     }
 
@@ -834,12 +822,12 @@ public class LevelManager : MonoBehaviour
 
             tm1.players[index].transform.GetChild(1).gameObject.SetActive(true);
             tm1.players[index].transform.GetChild(0).transform.position = tm1.players[index].GetComponent<Player>().childPos0;
-            tm1.players[index].GetComponentInChildren<SpriteRenderer>().enabled = true;
+          //  tm1.players[index].GetComponentInChildren<SpriteRenderer>().enabled = true;
             tm1.players[index].GetComponentInChildren<CapsuleCollider>().enabled = true;
             tm1.players[index].GetComponentInChildren<SphereCollider>().enabled = true;
             tm1.players[index].GetComponentInChildren<Rigidbody>().useGravity = true;
             tm1.players[index].GetComponent<Player>().isOut = false;
-            tm1.players[index].GetComponent<Player>().shadow.SetActive(true);
+           // tm1.players[index].GetComponent<Player>().shadow.SetActive(true);
             print(" bringing 1 in");
         }
         if (team == 2)
@@ -867,12 +855,12 @@ public class LevelManager : MonoBehaviour
 
             tm2.players[index].transform.GetChild(1).gameObject.SetActive(true);
             tm2.players[index].transform.GetChild(0).transform.position = tm2.players[index].GetComponent<Player>().childPos0;
-            tm2.players[index].GetComponentInChildren<SpriteRenderer>().enabled = true;
+          //  tm2.players[index].GetComponentInChildren<SpriteRenderer>().enabled = true;
             tm2.players[index].GetComponentInChildren<CapsuleCollider>().enabled = true;
             tm2.players[index].GetComponentInChildren<SphereCollider>().enabled = true;
             tm2.players[index].GetComponentInChildren<Rigidbody>().useGravity = true;
             tm2.players[index].GetComponent<Player>().isOut = false;
-            tm2.players[index].GetComponent<Player>().shadow.SetActive(true);
+           // tm2.players[index].GetComponent<Player>().shadow.SetActive(true);
             print(" bringing 2 in");
         }
     }
@@ -1088,7 +1076,7 @@ public class LevelManager : MonoBehaviour
             player.transform.GetChild(1).gameObject.SetActive(true);
             player.transform.GetChild(0).transform.position = Vector3.zero;
             player.GetComponent<Player>().isOut = false;
-            player.GetComponentInChildren<SpriteRenderer>().enabled = true;
+            //player.GetComponentInChildren<SpriteRenderer>().enabled = true;
             player.GetComponentInChildren<CapsuleCollider>().enabled = true;
             player.GetComponentInChildren<SphereCollider>().enabled = true;
             player.GetComponentInChildren<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
@@ -1211,6 +1199,7 @@ public class LevelManager : MonoBehaviour
 
     private void AddAI(int team,string charName)
     {
+        /*
         int count = 1;
 
        if (team == 1)
@@ -1250,7 +1239,7 @@ public class LevelManager : MonoBehaviour
         }
 
 
-       
+       */
     }
 
     private void IncreaseAIIntensity(AI ai, float n)
@@ -1317,13 +1306,13 @@ public class LevelManager : MonoBehaviour
              playerAnim.Update(0f);
          //   print("ReEnabling player");
 
-            playerconfigObject.GetComponent<SpriteRenderer>().enabled = true;                  
+           // playerconfigObject.GetComponent<SpriteRenderer>().enabled = true;                  
             playerconfigObject.GetComponent<CapsuleCollider>().enabled = true;
             playerconfigObject.GetComponent<SphereCollider>().enabled = true;
             playerconfigObject.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
             playerconfigObject.GetComponent<Rigidbody>().useGravity = true;
             playerconfigObject.GetComponent<Rigidbody>().isKinematic = false;
-            player.GetComponent<Player>().shadow.SetActive(true);
+          //  player.GetComponent<Player>().shadow.SetActive(true);
             player.GetComponent<Player>().playerAura.SetActive(true);  //aura
 
 
@@ -1441,7 +1430,7 @@ public class LevelManager : MonoBehaviour
         tm1.Clear();
         tm2.Clear();
         GlobalConfiguration.Instance.ClearPlayers();
-        GlobalConfiguration.Instance.SetDefaultJoin(true);
+       // GlobalConfiguration.Instance.SetDefaultJoin(true);
     }
 
     internal void EndGameArcade()
@@ -1605,7 +1594,7 @@ public class LevelManager : MonoBehaviour
                 {
                     if (other.GetComponent<Player>().hasAI && other.GetComponent<Player>().isOut == false)
                     {
-                        if (GlobalConfiguration.Instance.GetMyJoysticks().Count >= 1)
+                        //if (GlobalConfiguration.Instance.GetMyJoysticks().Count >= 1)
                         {
                             other.GetComponent<Player>().ControlSwap(player);
                         }
@@ -1628,7 +1617,7 @@ public class LevelManager : MonoBehaviour
                     if (other.GetComponent<Player>().hasAI && other.GetComponent<Player>().isOut == false)
                     {
 
-                        if (GlobalConfiguration.Instance.GetMyJoysticks().Count >= 1)
+                     //   if (GlobalConfiguration.Instance.GetMyJoysticks().Count >= 1)
                         {
                             other.GetComponent<Player>().ControlSwap(player);
                         }

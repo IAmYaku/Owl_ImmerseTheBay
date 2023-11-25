@@ -523,10 +523,15 @@ GameObject:
   - component: {fileID: 6773178482936399903}
   - component: {fileID: 8677368701313045396}
   - component: {fileID: 3828542385646665318}
+<<<<<<< Updated upstream
   - component: {fileID: 622853540924862717}
+=======
+  - component: {fileID: 287349768738035665}
+  - component: {fileID: 9131735826479771779}
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Enemy 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -646,8 +651,13 @@ MonoBehaviour:
   NetworkComponents:
   - {fileID: 6773178482936399903}
   - {fileID: 3828542385646665318}
+<<<<<<< Updated upstream
   - {fileID: 6780011383221463087}
   guid: c376bdbb-6913-48d7-8b26-f94b29af1c73
+=======
+  - {fileID: 6257200210352180955}
+  guid: 448bda00-ab86-41c9-9b31-5e815715082b
+>>>>>>> Stashed changes
 --- !u!114 &3828542385646665318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,7 +677,11 @@ MonoBehaviour:
   lerpObject: {fileID: 0}
   nativeScript: {fileID: 0}
   api: {fileID: 0}
+<<<<<<< Updated upstream
 --- !u!114 &622853540924862717
+=======
+--- !u!114 &287349768738035665
+>>>>>>> Stashed changes
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -676,6 +690,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1818454522379053820}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< Updated upstream
   m_Script: {fileID: 11500000, guid: 796d67f16b0b02544a4e6fc6f8d21fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -719,6 +734,51 @@ MonoBehaviour:
   OnPlacePointRemoveEvent:
     m_PersistentCalls:
       m_Calls: []
+=======
+  m_Script: {fileID: 11500000, guid: 1627454a2c8b44d5cb6921165a21f081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  number: 0
+  playerConfigObject: {fileID: 0}
+  playerAura: {fileID: 0}
+  shadow: {fileID: 0}
+  controller3DObject: {fileID: 0}
+  aiObject: {fileID: 0}
+  playerIconImage: {fileID: 0}
+  staminaBarObject: {fileID: 0}
+  powerBarObject: {fileID: 0}
+  super: {fileID: 0}
+  hasJoystick: 0
+  hasAI: 0
+  type: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  team: 2
+  childPos0: {x: 0, y: 0, z: 0}
+  isOut: 0
+  stamina: 0
+  power: 0
+  out_mat: {fileID: 0}
+  default_mat: {fileID: 0}
+  runtimeControlllers: []
+  playerAudioSource: {fileID: 0}
+  catchSound: {fileID: 0}
+  throwSounds: []
+  dodgeSound: {fileID: 0}
+  outSound: {fileID: 0}
+  footsteps: {fileID: 0}
+--- !u!114 &9131735826479771779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818454522379053820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 946801c38413041f19cf041873c958d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+>>>>>>> Stashed changes
 --- !u!1 &1959338249804614137
 GameObject:
   m_ObjectHideFlags: 0

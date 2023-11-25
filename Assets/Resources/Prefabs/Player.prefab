@@ -7555,8 +7555,8 @@ GameObject:
   - component: {fileID: 4167082872618027384}
   - component: {fileID: 4928854552742979113}
   m_Layer: 6
-  m_Name: NetworkPlayer
-  m_TagString: Player
+  m_Name: Player
+  m_TagString: Networked Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7748,7 +7748,6 @@ MonoBehaviour:
   number: 0
   playerConfigObject: {fileID: 0}
   playerAura: {fileID: 0}
-  shadow: {fileID: 0}
   controller3DObject: {fileID: 0}
   aiObject: {fileID: 0}
   playerIconImage: {fileID: 0}

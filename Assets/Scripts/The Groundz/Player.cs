@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     GameObject hitObject;
     GameObject catchObject;
     GameObject winObject;
-    public GameObject shadow;   // 0.2
+    //public GameObject shadow;   // 0.2
     public GameObject controller3DObject;  // 1
     public GameObject aiObject;  // 2
 
@@ -131,11 +131,6 @@ public class Player : MonoBehaviour
         if (!playerAura)
         {
             playerAura = playerConfigObject.transform.GetChild(0).gameObject;
-        }
-
-        if (!shadow)
-        {
-            shadow = playerConfigObject.transform.GetChild(1).gameObject;
         }
 
         if (!controller3DObject)
@@ -719,7 +714,7 @@ public class Player : MonoBehaviour
         playerConfigObject.GetComponent<CapsuleCollider>().enabled = false;
         playerConfigObject.GetComponent<SphereCollider>().enabled = false;
         playerConfigObject.GetComponent<Rigidbody>().isKinematic = true;
-        shadow.SetActive(false);
+        //shadow.SetActive(false);
     }
 
     internal void playFootsteps()

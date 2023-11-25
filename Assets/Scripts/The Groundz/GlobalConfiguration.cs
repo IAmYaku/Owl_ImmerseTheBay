@@ -11,14 +11,12 @@ public class GlobalConfiguration : MonoBehaviour
 {
 
     public GameManager gameManager;
+    LevelManager levelManager;
 
-    public AudioSource audioSourceGM;
-    public AudioSource audioSourceMenu;
-
+    Stage stage;
 
     public GameObject playerPrefab;
 
-    public GameObject player1KeyPrefab;
     public GameObject aiPrefab;
 
     public GameObject ballPrefab;
@@ -46,8 +44,8 @@ public class GlobalConfiguration : MonoBehaviour
     public enum GameMode { none, arcade, multiplayer, story };
     public GameMode gameMode = GameMode.none;
 
-    List<MyJoystick> myJoysticks;
-    public static string[] joysticks;
+   // List<MyJoystick> myJoysticks;
+   // public static string[] joysticks;
 
     public Color[] stickColorGuide;
 
@@ -56,11 +54,11 @@ public class GlobalConfiguration : MonoBehaviour
 
     public static int gamepadStarts;
 
-    bool isAtScene;  // dup of lm isAtScene
+    bool isAtStage;  // dup of lm isAtScene
     //list scenes scenes 
-    enum Stage { theGym, theGroundz, theBlock }
+    enum Level { theGym, theGroundz, theBlock }
 
-    Stage stage;
+    Level level;
 
     public bool gameStarted;
 
@@ -80,8 +78,6 @@ public class GlobalConfiguration : MonoBehaviour
 
          DontDestroyOnLoad(this);
 
-        myJoysticks = new List<MyJoystick>();
-
         stickColorGuide = new Color[maxPlayerCount];   // customizable 
         //team 1 player colors
         stickColorGuide[0] = new Color(.1f,.1f,1f);
@@ -95,18 +91,20 @@ public class GlobalConfiguration : MonoBehaviour
         stickColorGuide[7] = new Color(1f, .9f, .1f);
 
         //init
-        locks.Add("Mack", false);
-        locks.Add("King", false);
-        locks.Add("Nina", false);
+        //  locks.Add("Mack", false);
+        // locks.Add("King", false);
+        //  locks.Add("Nina", false);
+
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 
         if (!team1Object)
         {
-            team1Object = gameObject.transform.GetChild(0).GetChild(0).gameObject;
+            team1Object = levelManager.tm1.gameObject;
         }
 
         if (!team2Object)
         {
-            team1Object = gameObject.transform.GetChild(0).GetChild(0).gameObject;
+            team2Object = levelManager.tm2.gameObject;
         }
 
         TeamManager tm1 = team1Object.GetComponent<TeamManager>();
@@ -117,43 +115,24 @@ public class GlobalConfiguration : MonoBehaviour
     }
 
 
-    internal void LoadDefaultGame()
+    internal void LoadDefaultGame(GameObject player1)
     {
+        player1.GetComponent<Player>().team = 1;
+        AddNewPlayer(player1);
+        AddPlayerToTeamManager(player1, 1, true);
+        GameObject ai = InstantiateAIPrefab();
+        ai.GetComponent<Player>().team = 2;
+        AddNewPlayer(ai);
+        AddPlayerToTeamManager(ai, 2, false);
+
+        levelManager.LoadLevel();
 
     }
 
-    internal void SetInputModule(int playerIndex, InputSystemUIInputModule inputSystemUIInputModule)
-    {
-     foreach (GameObject player in players)
-        {
-            PlayerInput pi = player.GetComponent<Player>().controller3DObject.GetComponent<PlayerInput>();
-            if (pi.playerIndex == playerIndex)
-            {
-                pi.uiInputModule = inputSystemUIInputModule;
-            }
-        }
-    }
 
     private void Start()
     {
        SetGameStarted(true);
-
-    }
-
-    public GameObject CreatePlayer1()       // keyboard
-    {
-
-        print("Creating Player 1");
-
-        GameObject playerObject = InstantiatePlayer1KeyPrefab();                 // if you instantiate w pi enabled then you get handleJoin
-        Player playerScript = playerObject.GetComponent<Player>();
-
-        playerScript.CreateJoystick(-1);
-        myJoysticks.Add(playerScript.GetJoystick());
-
-        AddNewPlayer(playerObject);
-
-        return playerObject;
 
     }
 
@@ -173,21 +152,6 @@ public class GlobalConfiguration : MonoBehaviour
         }
     }
 
-    internal GameObject InstantiatePlayer1KeyPrefab()
-    {
-        if (player1KeyPrefab)
-        {
-            GameObject returnMe = Instantiate(player1KeyPrefab);
-
-            return returnMe;
-        }
-
-        else
-        {
-            print("No playerPrefab");
-            return null;
-        }
-    }
 
     internal GameObject InstantiateAIPrefab()
     {
@@ -222,34 +186,10 @@ public class GlobalConfiguration : MonoBehaviour
 
 
 
-    public void HandlePlayerJoin(PlayerInput pi)                 // pi on instnatiaded player prefab
+    public void HandlePlayerJoin()                 
     {
-        /*
-        GetJoysticks();
-
-        deviceCount++;                    // should allign w joySTick count
-
-        //if not isPlaying
-
-        print("Player Joining");
-
-        if (!players.Any(p => p.GetComponent<Player>().GetPlayerIndex() == pi.playerIndex))
-        {
-            print("New Device @ index: " + pi.playerIndex);
-
-            gamepadStarts++;
-
-            GameObject playerObject = pi.transform.root.gameObject;
-            Player playerScript = playerObject.GetComponent<Player>();
-
-            playerScript.CreateJoystick(pi.playerIndex, GetJoystickAt(pi.playerIndex));  // should be obsolete
-            myJoysticks.Add(playerScript.GetJoystick());
-
-            AddNewPlayer(playerObject);
-
-        }
-        */
         
+
     }
 
     public void AddNewPlayer(GameObject playerObject)
@@ -265,7 +205,7 @@ public class GlobalConfiguration : MonoBehaviour
         playerObject.transform.parent = this.gameObject.transform;                 // needed to parent for DontDestroyOnLoadscene sake
     }
 
-    public void HandlePlayerLeave(PlayerInput pi)
+    public void HandlePlayerLeave()
     {
         deviceCount--;
 
@@ -353,18 +293,18 @@ public class GlobalConfiguration : MonoBehaviour
     public void SetStage(string x)
     {
 
-        GetJoysticks();                  // checking per scene
+       // GetJoysticks();                  // checking per scene
 
         switch (x)
         {
             case "theGym":
-                stage = Stage.theGym;
+                level = Level.theGym;
                 break;
             case "theGroundz":
-                stage = Stage.theGroundz;
+                level = Level.theGroundz;
                 break;
             case "theBlock":
-                stage = Stage.theBlock;
+                level = Level.theBlock;
                 break;
         }
     }
@@ -393,6 +333,7 @@ public class GlobalConfiguration : MonoBehaviour
     */
 
 
+    /*
     internal void SetDefaultJoin(bool v)
     {
         PlayerInputManager pim = gameManager.playerInputManager;
@@ -409,152 +350,12 @@ public class GlobalConfiguration : MonoBehaviour
         }
     }
 
-    public void GetJoysticks()
-    {
-
-        joysticks = Input.GetJoystickNames();
-        joysticks = GetActualJoysticks(joysticks);
+    */
 
 
-    }
-
-    public string GetJoystickAt(int v)
-    {
-        if (joysticks.Length > v)
-        {
-            return joysticks[v];
-        }
-
-        return "";
-
-    }
-    internal Color GetMyJoystickAt(int v)
-    {
-        throw new NotImplementedException();
-    }
-
-    public List<MyJoystick> GetMyJoysticks()
-    {
-        return myJoysticks;
-    }
-
-    internal void PopulateAIRevamp(int p1team, int ai1Count, int ai2Count)
-    {
-        if (p1team == 1)
-        {
-            PopulateAITeamRevamp(2, ai2Count);   //orders important to get opposite char type
-            PopulateAITeamRevamp(1, ai1Count);
-        }
-
-        if (p1team == 2)
-        {
-            PopulateAITeamRevamp(1, ai1Count);
-            PopulateAITeamRevamp(2, ai2Count);
-
-        }
-    }
-
-    internal void PopulateAI(int p1team)
-    {
-        if (p1team == 1)
-        {
-            PopulateAITeam(2);   //orders important to get opposite char type
-            PopulateAITeam(1);
-        }
-
-        if (p1team == 2)
-        {
-            PopulateAITeam(1);  
-            PopulateAITeam(2);
-
-        }
-
-    }
-
-    internal void PopulateArcadeAI(int team, string charName)
-    {
-       
-        if (team == 2)
-        {
-            PopulateAITeam(2,charName);
-
-        }
-
-        if (team == 1)
-        {
-            PopulateAITeam(1,charName);
-
-        }
-
-    }
-
-    void PopulateAITeam(int team, string charName)
-    {
-        if (team == 1)
-        {
-            TeamManager tm1 = team1Object.GetComponent<TeamManager>();
-            List<GameObject> ai1_new = tm1.PopulateAI(1,charName);
-            int i = 0;
-            foreach (GameObject ai1_ in ai1_new)
-            {
-                i++;
-                Player pScript = ai1_.GetComponent<Player>();
-                AddNewPlayer(ai1_);
-                AddPlayerToTeamManager(ai1_, 1, false);
-                pScript.SetColor(GetPlayerColor(i, pScript));
-            }
-        }
-
-        if (team == 2)
-        {
-            TeamManager tm2 = team2Object.GetComponent<TeamManager>();
-            List<GameObject> ai2_new = tm2.PopulateAI(2, charName);
-            int j = 0;
-            foreach (GameObject ai2_ in ai2_new)
-            {
-                j++;
-                Player pScript = ai2_.GetComponent<Player>();
-                AddNewPlayer(ai2_);
-                AddPlayerToTeamManager(ai2_, 2, false);
-                pScript.SetColor(GetPlayerColor(j, pScript));
-            }
-        }
-    }
-    void PopulateAITeam(int team)
-    {
-        if (team == 1)
-        {
-            TeamManager tm1 = team1Object.GetComponent<TeamManager>();
-            List<GameObject> ai1_new = tm1.PopulateAI(1);
-            int i = 0;
-            foreach (GameObject ai1_ in ai1_new)
-            {
-                i++;
-                Player pScript = ai1_.GetComponent<Player>();
-                AddNewPlayer(ai1_);
-                AddPlayerToTeamManager(ai1_, 1, false);
-                pScript.SetColor(GetPlayerColor(i,pScript));
-            }
-        }
-
-        if (team == 2)
-        {
-            TeamManager tm2 = team2Object.GetComponent<TeamManager>();
-            List<GameObject> ai2_new = tm2.PopulateAI(2);
-            int j = 0;
-            foreach (GameObject ai2_ in ai2_new)
-            {
-                j++;
-                Player pScript = ai2_.GetComponent<Player>();
-                AddNewPlayer(ai2_);
-                AddPlayerToTeamManager(ai2_, 2, false);
-                pScript.SetColor(GetPlayerColor(j,pScript));
-            }
-        }
-    }
     void PopulateAITeamRevamp(int team, int count)
     {
-
+        /*
         if (team == 1)
         {
             TeamManager tm1 = team1Object.GetComponent<TeamManager>();
@@ -586,6 +387,7 @@ public class GlobalConfiguration : MonoBehaviour
                     pScript.SetColor(GetPlayerColor(j, pScript));
                 }
             }
+        */
     }
 
     internal void AddPlayerToTeamManager(GameObject pObject, int team, bool isUser)
@@ -650,13 +452,15 @@ public class GlobalConfiguration : MonoBehaviour
         return null;
     }
 
-    internal void SetIsAtScene(bool v, int sceneIndex)
+    public void SetIsAtScene(bool v, int sceneIndex, Stage stage_in)
     {
-        isAtScene = v;
+        isAtStage = v;
+        stage = stage_in;
+    }
 
-        LevelManager lm = gameManager.levelManager;
-        lm.SetIsAtScene(v);
-        lm.SetSceneIndex(sceneIndex);
+    public bool GetIsAtStage()
+    {
+        return isAtStage;
     }
 
     internal void SetGameStarted(bool v)
@@ -665,39 +469,6 @@ public class GlobalConfiguration : MonoBehaviour
     }
 
 
-    private string[] GetActualJoysticks(string[] stix)
-    {
-        int j = 0;
-        string[] returnMe;
-        List<string> addMe = new List<string>();
-
-        for (int i = 0; i < stix.Length; i++)
-        {
-            if (stix[i] != "")
-            {
-                j++;
-                addMe.Add(stix[i]);
-            }
-        }
-        returnMe = new string[j];
-
-        for (int k = 0; k < addMe.Count; k++)
-        {
-            returnMe[k] = addMe[k];
-        }
-
-        return returnMe;
-    }
-
-    public void AdjustGmVolume(float newVolume)
-    {
-        AudioListener.volume = newVolume;
-    }
-
-    public void AdjustMenuVolume(float newVolume)
-    {
-        audioSourceMenu.volume = newVolume;
-    }
 
     internal void ClearPlayers()
     {
@@ -813,9 +584,9 @@ public class GlobalConfiguration : MonoBehaviour
             instance = FindObjectOfType<GlobalConfiguration>();
             if (instance != null) return instance;
 
-            GameObject go = Instantiate(Resources.Load("PreFabs/GameManager/GameManager")) as GameObject;
+            GameObject go = Instantiate(Resources.Load("PreFabs/GameManager")) as GameObject;
             instance = go.GetComponent<GlobalConfiguration>();
-            DontDestroyOnLoad(go);  // move to GameManager
+           // DontDestroyOnLoad(go);  // move to GameManager
 
             return instance;
         }

@@ -96,7 +96,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3528844056433438573}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 9df090ccc66e7f94baddf1dfe40e6b85, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
   Parent: {fileID: 0}
   NetworkComponents:
   - {fileID: 5183726483862440079}
-  guid: 51b0aca9-be19-44b3-8baa-f863e65afae2
+  guid: fd665193-0af6-420c-9498-a2397a004faf
 --- !u!114 &5183726483862440079
 MonoBehaviour:
   m_ObjectHideFlags: 0

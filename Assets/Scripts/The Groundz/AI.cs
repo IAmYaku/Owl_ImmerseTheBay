@@ -209,20 +209,21 @@ public class AI : MonoBehaviour {
         }
 
         levelManager = gameManagerObject.GetComponent<LevelManager>();
+        gameManager = gameManagerObject.GetComponent<GameManager>();
 
         playerScript = gameObject.GetComponentInParent<Player>();
         parent = gameObject.transform.parent.gameObject;
         transform = gameObject.transform;
 
         playerConfigObject = playerScript.playerConfigObject;
+
         navMeshAgent = playerConfigObject.GetComponent<NavMeshAgent>();
-        animator = playerConfigObject.GetComponent<Animator>();
-        spriteRenderer = playerConfigObject.GetComponent<SpriteRenderer>();
-        rigidbody = playerConfigObject.GetComponent<Rigidbody>();
-		collider = playerConfigObject.GetComponent<Collider> ();
-		sizeX = collider.bounds.max.x - collider.bounds.min.x;
-		sizeY = collider.bounds.max.y - collider.bounds.min.y;
-		sizeZ = collider.bounds.max.z - collider.bounds.min.z;
+
+       // rigidbody = playerConfigObject.GetComponent<Rigidbody>();
+		//collider = playerConfigObject.GetComponent<Collider> ();
+		//sizeX = collider.bounds.max.x - collider.bounds.min.x;
+		//sizeY = collider.bounds.max.y - collider.bounds.min.y;
+		//sizeZ = collider.bounds.max.z - collider.bounds.min.z;
 
         team = playerScript.team;
         color = playerScript.color;
@@ -251,7 +252,7 @@ public class AI : MonoBehaviour {
 
          */
 
-         gameManager = levelManager.gameObject.GetComponent<GameManager>();                        // todo
+        
         retreatPoint = parent.transform;  // or grab from lm 
 
 
@@ -278,7 +279,7 @@ public class AI : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
+        /*
         if (levelManager.isPlaying) {
             if (navMeshAgent.isOnNavMesh )
             {
@@ -328,6 +329,8 @@ public class AI : MonoBehaviour {
 
         playerConfigObject.transform.LookAt(Camera.main.transform.position, Vector3.up);
         playerConfigObject.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0f, transform.localEulerAngles.z);     // Stay 2D for me please lol
+
+        */
     }
 
     internal void SetKnockedOut(float magnitude)
