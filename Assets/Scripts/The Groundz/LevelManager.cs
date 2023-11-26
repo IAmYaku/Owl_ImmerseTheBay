@@ -602,12 +602,12 @@ public class LevelManager : MonoBehaviour
         if (team == 1)
         {
             tm1.MoveToSpawnPoints(spawnPoints);
-           // tm1.FaceOpp(1);
+            tm1.FaceOpp(1);
         }
         if (team == 2)
         {
             tm2.MoveToSpawnPoints(spawnPoints);
-          //  tm2.FaceOpp(2);
+            tm2.FaceOpp(2);
         }
     }
 

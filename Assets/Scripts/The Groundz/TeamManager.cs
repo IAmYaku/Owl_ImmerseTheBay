@@ -127,8 +127,7 @@ public class TeamManager : MonoBehaviour
         {
             foreach (GameObject pObject in players)
             {
-                SpriteRenderer pSR = pObject.GetComponent<Player>().playerConfigObject.GetComponent<SpriteRenderer>();     // filthy lol
-                pSR.flipX = false;
+                pObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
         }
 
@@ -136,8 +135,7 @@ public class TeamManager : MonoBehaviour
         {
             foreach (GameObject pObject in players)
             {
-                SpriteRenderer pSR = pObject.GetComponent<Player>().playerConfigObject.GetComponent<SpriteRenderer>();     // filthy lol
-                pSR.flipX = true;
+                pObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 
             }
         }
