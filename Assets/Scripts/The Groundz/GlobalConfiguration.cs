@@ -117,11 +117,16 @@ public class GlobalConfiguration : MonoBehaviour
 
     internal void LoadDefaultGame(GameObject player1)
     {
-        player1.GetComponent<Player>().team = 1;
+
+
+        
         AddNewPlayer(player1);
         AddPlayerToTeamManager(player1, 1, true);
+
+        //if only one player, instantiate AI
+
         GameObject ai = InstantiateAIPrefab();
-        ai.GetComponent<Player>().team = 2;
+
         AddNewPlayer(ai);
         AddPlayerToTeamManager(ai, 2, false);
 
@@ -392,10 +397,13 @@ public class GlobalConfiguration : MonoBehaviour
 
     internal void AddPlayerToTeamManager(GameObject pObject, int team, bool isUser)
     {
+        pObject.GetComponent<Player>().team = team;
+
         if (team == 1)
         {
             TeamManager tm1 = team1Object.GetComponent<TeamManager>();
             tm1.AddObject(pObject, isUser);
+           
         }
 
         if (team == 2)

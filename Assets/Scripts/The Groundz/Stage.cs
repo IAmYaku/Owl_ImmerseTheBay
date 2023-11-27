@@ -84,9 +84,10 @@ public class Stage : MonoBehaviour
     {
         if (GlobalConfiguration.Instance.gameMode == GlobalConfiguration.GameMode.none)
         {
-            gm.networkManager =  GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
             loadedFromStage = true;
+
+            gm.networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
             GameObject player1 = GetNetworkPlayer();
 

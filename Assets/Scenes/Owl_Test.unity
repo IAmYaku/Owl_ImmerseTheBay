@@ -7589,6 +7589,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: FoundryPersistent
       objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: squatDesktop.m_Action.m_Name
+      value: Squat Desktop
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: squatDesktop.m_Action.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: squatDesktop.m_Action.m_ExpectedControlType
+      value: Axis
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: squatDesktop.m_Action.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: squatDesktop.m_Action.m_SingletonActionBindings.Array.data[0].m_Id
+      value: 78a8fb5b-db27-484f-b3c8-9701faaee4ba
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: squatDesktop.m_Action.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Mouse>/scroll/y
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: squatDesktop.m_Action.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Squat Desktop
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: squatDesktop.m_Action.m_SingletonActionBindings.Array.data[0].m_Processors
+      value: Normalize(min=-1,max=1)
+      objectReference: {fileID: 0}
     - target: {fileID: 2749485335630971839, guid: 60d7a93c17943204388265df9708976f, type: 3}
       propertyPath: xrRig
       value: 
@@ -9162,8 +9194,8 @@ Transform:
   m_GameObject: {fileID: 323801625}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.06, y: 7.97, z: -8.86}
-  m_LocalScale: {x: 1, y: 2.82, z: 1}
+  m_LocalPosition: {x: -2.06, y: 7.97, z: -10.79}
+  m_LocalScale: {x: 1, y: 2.82, z: 0.09}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 893936075}

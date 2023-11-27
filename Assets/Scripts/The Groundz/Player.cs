@@ -17,9 +17,7 @@ public class Player : MonoBehaviour
 
     public int number;
 
-    int playerIndex;   // < should be alligned w myjoystick
-
-    bool isSet;
+    int playerIndex;   // < should be alligned w Foundry
 
     public GameObject playerConfigObject;  // 0
     public GameObject playerAura;   // 0.1
@@ -30,13 +28,12 @@ public class Player : MonoBehaviour
     GameObject catchObject;
     GameObject winObject;
     //public GameObject shadow;   // 0.2
-    public GameObject controller3DObject;  // 1
+   // public GameObject controller3DObject;  // 1
     public GameObject aiObject;  // 2
 
-    Controller3D controller3D;
     AI aiScript;
 
-    public Sprite playerIconImage;
+   // public Sprite playerIconImage;
     public GameObject staminaBarObject;
 
     public GameObject powerBarObject;
@@ -71,8 +68,6 @@ public class Player : MonoBehaviour
     public int power;
     private float powerCool;
 
-    public Material out_mat;
-    public Material default_mat;
 
 
 
@@ -121,62 +116,6 @@ public class Player : MonoBehaviour
     }
 
 
-    void CheckChildStructure()
-    {
-        if (!playerConfigObject)
-        {
-            playerConfigObject = transform.GetChild(0).gameObject;
-        }
-
-        if (!playerAura)
-        {
-            playerAura = playerConfigObject.transform.GetChild(0).gameObject;
-        }
-
-        if (!controller3DObject)
-        {
-            controller3DObject = transform.GetChild(1).gameObject;
-        }
-
-        if (!aiObject)
-        {
-            aiObject = transform.GetChild(2).gameObject;
-        }
-
-        if (!healthSR)
-        {
-            healthSR = playerAura.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
-        }
-
-        if (!staminaSR)
-        {
-            staminaSR = playerAura.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
-        }
-
-        if (!powerSR)
-        {
-            powerSR = playerAura.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>();
-        }
-
-        if (!hitObject)
-        {
-            hitObject = playerAura.transform.GetChild(3).gameObject;
-        }
-
-        if (!catchObject)
-        {
-            catchObject = playerAura.transform.GetChild(4).gameObject;
-        }
-
-        if (!winObject)
-        {
-            winObject = playerAura.transform.GetChild(5).gameObject;
-        }
-
-
-        controller3D = controller3DObject.GetComponent<Controller3D>();
-        aiScript = aiObject.GetComponent<AI>();
-    }
 
     void Start()
     {
@@ -283,51 +222,7 @@ public class Player : MonoBehaviour
 
     }
 
-    internal void DisablePlayerInput()
-    {
-        Controller3D controller3D = controller3DObject.GetComponent<Controller3D>();
-        controller3D.DisablePlayerInputControls();
-    }
 
-    internal void SetisSet(bool v)
-    {
-        isSet = v;
-    }
-
-    private void DeRender(float v)              // DeRender + + +
-    {
-        SpriteRenderer sr = playerConfigObject.GetComponent<SpriteRenderer>();
-        if ((dR_Cool - v) <= 0)
-        {
-            // print("done deRendering");
-            isDeRendering = false;
-            // playerConfigObject.GetComponent<PlayerConfiguration>().SetOutAnimation(false);
-            // out_mat.SetFloat("_Start", 0);
-            playerConfigObject.GetComponent<SpriteRenderer>().material = default_mat;
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1);
-            playerConfigObject.GetComponent<SpriteRenderer>().enabled = false;
-            playerConfigObject.GetComponent<CapsuleCollider>().enabled = false;
-            playerConfigObject.GetComponent<SphereCollider>().enabled = false;
-            playerConfigObject.GetComponent<Rigidbody>().isKinematic = true;
-            playerConfigObject.GetComponent<Rigidbody>().useGravity = false;
-
-            playerConfigObject.transform.position = transform.position;   //?    +
-
-            playerConfigObject.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);  // +
-
-            playerAura.SetActive(false);
-        }
-
-        else
-        {
-            // playerConfigObject.transform.Translate(new Vector3(UnityEngine.Random.Range(-0.25f, 0.25f), -1 * v, 0f));
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, (dR_Cool - v));
-
-            //  float cutThresh = playerConfigObject.GetComponent<SpriteRenderer>().material.GetFloat("_CutThresh");   // ?
-            //   playerConfigObject.GetComponent<SpriteRenderer>().material.SetFloat("_CutThresh", cutThresh + .05f);    //?
-
-        }
-    }
 
     public float GetThrowPower0()
     {
@@ -338,35 +233,7 @@ public class Player : MonoBehaviour
         return maxThrowPower;
 
     }
-
-    public void enableAI()
-    {
-
-
-        hasAI = true;
-
-        aiObject.SetActive(true);
-        aiScript.enabled = true;
-        aiScript.Init();
-
-        hasJoystick = false;
-        controller3DObject.SetActive(false);
-        controller3D.enabled = false;
-        PlayerInput playerInput = controller3DObject.GetComponent<PlayerInput>();
-        playerInput.enabled = false;
-
-
-        NavMeshAgent navMeshAgent = playerConfigObject.GetComponent<NavMeshAgent>();
-        navMeshAgent.enabled = true;
-
-        playerAura.SetActive(false);
-
-        playerConfigObject.GetComponent<Rigidbody>().isKinematic = true;
-
-    }
-
-
-        
+      
 
     public void ControlSwap(GameObject pSwap)
     {
@@ -406,18 +273,16 @@ public class Player : MonoBehaviour
 
             enableController();
 
-            PlayerInput myPlayerInput0 = controller3DObject.GetComponent<PlayerInput>();
-            PlayerInput myPlayerInput = PlayerInput.all[myPlayerInput0.playerIndex];
-            InputUser myPlayerInputUser = myPlayerInput.user;
+           // PlayerInput myPlayerInput0 = controller3DObject.GetComponent<PlayerInput>();
+          //  PlayerInput myPlayerInput = PlayerInput.all[myPlayerInput0.playerIndex];
+          //  InputUser myPlayerInputUser = myPlayerInput.user;
 
 
-            print("myPlayerInput0.playerIndex " + myPlayerInput0.playerIndex);
+         //   print("myPlayerInput0.playerIndex " + myPlayerInput0.playerIndex);
 
             print("joystick.number " + joystick.number);
 
             print("Gamepad.all.Count " + Gamepad.all.Count);
-
-            CheckDevices();
 
             /*
             print(" InputUser.all " + InputUser.all.Count);
@@ -450,50 +315,9 @@ public class Player : MonoBehaviour
     }
 
 
-    private Action<InputUser, InputUserChange, InputDevice> DeviceChange()
-    {
-     //   print("Device changed!");
-        /*
-        if (Gamepad.all.Count >= 1)
-        {
-            foreach (GameObject p in levelManager.GetPlayers())
-            {
-                if (p.GetComponent<Player>().hasJoystick)
-                {
-                    Player pScript = p.GetComponent<Player>();
-                    PlayerInput pInput = pScript.controller3DObject.GetComponent<PlayerInput>();
-                    InputUser pUser = pInput.user;
-                   Gamepad g = Gamepad.all[pScript.joystick.number];
-                   InputUser.PerformPairingWithDevice(g, pUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
-                }
-              
-            }
-  
-        }
-        */
-        return null;
-    }
-
-    public void CheckDevices()
-    {
-        if (Gamepad.all.Count >= 1)
-        {
-            foreach (GameObject p in levelManager.GetPlayers())
-            {
-                if (p.GetComponent<Player>().hasJoystick)
-                {
-                    Player pScript = p.GetComponent<Player>();
-                    PlayerInput pInput = pScript.controller3DObject.GetComponent<PlayerInput>();
-                    InputUser pUser = pInput.user;
-                    Gamepad g = Gamepad.all[pScript.joystick.number];
-                    InputUser.PerformPairingWithDevice(g, pUser, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
-                }
-                 }
-            }
-        }
-
     private void enableController()
     {
+        /*
         controller3DObject.SetActive(true);
         controller3D.enabled = true;
         PlayerInput playerInput = controller3DObject.GetComponent<PlayerInput>();
@@ -503,7 +327,7 @@ public class Player : MonoBehaviour
         }
 
         playerConfigObject.GetComponent<Rigidbody>().isKinematic = false;
-        
+        */
     }
 
     internal void SetOnStandby(bool v)
@@ -517,11 +341,11 @@ public class Player : MonoBehaviour
         {
             if (v)
             {
-                controller3D.DisablePlayerInputControls();
+               // controller3D.DisablePlayerInputControls();
             }
             else
             {            
-                controller3D.EnablePlayerInputControls();
+               // controller3D.EnablePlayerInputControls();
             }
             
         }
@@ -557,6 +381,31 @@ public class Player : MonoBehaviour
 
         playerAura.SetActive(false);
     }
+    public void enableAI()
+    {
+
+
+        hasAI = true;
+
+        aiObject.SetActive(true);
+        aiScript.enabled = true;
+        aiScript.Init();
+
+        hasJoystick = false;
+        // controller3DObject.SetActive(false);
+        //     controller3D.enabled = false;
+        //  PlayerInput playerInput = controller3DObject.GetComponent<PlayerInput>();
+        // playerInput.enabled = false;
+
+
+        NavMeshAgent navMeshAgent = playerConfigObject.GetComponent<NavMeshAgent>();
+        navMeshAgent.enabled = true;
+
+        playerAura.SetActive(false);
+
+        playerConfigObject.GetComponent<Rigidbody>().isKinematic = true;
+
+    }
 
     private void SetAuraColor(Color color)
     
@@ -589,66 +438,6 @@ public class Player : MonoBehaviour
 
     }
 
-    public void enableController(int pIndex)    // init ..
-    {
-        hasJoystick = true;
-
-        pIndex = playerIndex;
-
-        if (joystick == null)                                  // might be obsolete since playerIndex is in PlayerInput
-        {
-            joystick = new MyJoystick(pIndex);
-            print("joystick is null");
-
-        }
-
-        //  joystick.SetJoystick(playerIndex);
-
-        controller3DObject.SetActive(true);
-        controller3D.GetComponent<Controller3D>().enabled = true;
-
-        PlayerInput playerInput = controller3DObject.GetComponent<PlayerInput>();    // might be called twice .. (Controller3D.OnEnable())
-       
-        if (playerInput)
-        {
-            playerInput.enabled = true;
-        }
-
-
-        hasAI = false;
-        aiScript.enabled = false;
-        aiObject.SetActive(false);
-
-
-        NavMeshAgent navMeshAgent = playerConfigObject.GetComponent<NavMeshAgent>();
-        navMeshAgent.enabled = false;
-        playerConfigObject.GetComponent<Rigidbody>().isKinematic = false;      // must handle w SetIsReadys ...
-
-
-    }
-
-    public void enableController(int joystickNumber, string type)    // ++  obsolete
-    {
-
-        hasAI = false;
-        aiScript.enabled = false;
-
-
-        if (aiObject.GetComponent<NavMeshAgent>())                                   // not sure why we don't do all these checks at start!  +
-        {
-            NavMeshAgent navMeshAgent = aiObject.GetComponent<NavMeshAgent>();
-            navMeshAgent.enabled = false;
-            playerConfigObject.GetComponent<Rigidbody>().isKinematic = false;
-        }
-
-        hasJoystick = true;
-        joystick = new MyJoystick();
-        joystick.SetJoystick(joystickNumber, type);
-
-
-        controller3D.GetComponent<Controller3D>().enabled = true;
-    }
-
 
     public void ToggleActivateDodge()
     {
@@ -656,16 +445,10 @@ public class Player : MonoBehaviour
 
     }
 
-    internal void PlayWintion()
-    {
-        playerConfigObject.GetComponent<PlayerConfiguration>().SwitchToWinAnimation();
-
-
-    }
-
 
     public void DisablePlayer()
     {
+        /*
         isOut = true;
        
         if (hasJoystick)
@@ -702,7 +485,7 @@ public class Player : MonoBehaviour
         }
 
         DeRender();
-
+        */
     }
 
     public void DeRender()
@@ -791,31 +574,6 @@ public class Player : MonoBehaviour
         return playerIndex;
     }
 
-    internal void CreateJoystick(int pIndex, string type)
-    {
-        hasJoystick = true;
-        joystick = new MyJoystick(pIndex, type);                      // change to start @ 0.   allign w pi.p
-    }
-
-    internal void CreateJoystick(int pIndex)
-    {
-        hasJoystick = true;
-        joystick = new MyJoystick(pIndex);                      // change to start @ 0.   allign w pi.p
-    }
-
-    public MyJoystick GetJoystick()
-    {
-        if (joystick != null)
-        {
-            return joystick;
-        }
-        else
-        {
-            Debug.Log("No Joystick");
-            return null;
-        }
-    }
-
     public void SetColor(Color c)
     
     {
@@ -854,12 +612,6 @@ public class Player : MonoBehaviour
     {
         winObject.SetActive(false);
 
-    }
-
-    public void MoveToSpawnPoint(Transform spawnPoint)
-    {
-        this.transform.position = spawnPoint.transform.position;
-        print("OnConnected");
     }
 
 }

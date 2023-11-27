@@ -15,18 +15,14 @@ public class PlayerConfiguration : MonoBehaviour
     static int healthStock = 3;    // Set from gameRule    
 
     
-    public Animator animator;
+
     public AudioSource audioSource;
     public SpriteRenderer spriteRenderer;
     public Rigidbody rigidbody;
     public SphereCollider headCollider;   // extra points +?, sfx, vfx, etc
     public CapsuleCollider bodyCollider;
 
-    public RuntimeAnimatorController play;
-    public RuntimeAnimatorController win;
 
-    public Material out_mat;
-    public Material default_mat;
 
     bool onGround;
     bool isJumping;
@@ -100,11 +96,12 @@ public class PlayerConfiguration : MonoBehaviour
       //  if (levelManager)
         {
 
-            if (!player.isOut && levelManager.isPlaying)
+         //   if (!player.isOut && levelManager.isPlaying)
             {
                 if (collision.gameObject.tag == "Ball")
                 {
                     ballHit = collision.gameObject;
+                    print("ballHit = " + ballHit);
 
                     if (ballHit.GetComponent<Ball>().CheckPlayerHit(player.team))                                                                           // make more module
                     {
@@ -222,10 +219,7 @@ public class PlayerConfiguration : MonoBehaviour
 
     internal void TriggerHitAnimation()
     {
-        if (animator)
-        {
-            animator.SetTrigger("Hit");
-        }
+
     }
 
     private void TriggerKnockBack(Vector3 ballVelocity, bool ballIsSupered)                                                                    // important to revitalize
@@ -277,6 +271,6 @@ public class PlayerConfiguration : MonoBehaviour
 
     internal void SetOutAnimation(bool v)
     {
-        animator.SetBool("isOut", v);
+
     }
 }

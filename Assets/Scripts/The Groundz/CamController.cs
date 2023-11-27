@@ -218,7 +218,7 @@ public class CamController : MonoBehaviour {
             
             if (!playerComp.hasAI)
             {
-                if (playerComp.controller3DObject.GetComponent<Controller3D>().ballCaught)
+               // if (playerComp.controller3DObject.GetComponent<Controller3D>().ballCaught)
                 {
                     fxCount += 2;
                    // print("fxMultiplier = " + fxMultiplier);
@@ -306,7 +306,7 @@ public class CamController : MonoBehaviour {
             {
               
                 charWeight = playerWeight ;
-                if (playerComp.controller3DObject.GetComponent<Controller3D>().ballCaught)
+              //  if (playerComp.controller3DObject.GetComponent<Controller3D>().ballCaught)
                 {
                     ballCaughtPos.Add(playerComp.playerConfigObject.transform.position.x);
                     charWeight += fxWeight;

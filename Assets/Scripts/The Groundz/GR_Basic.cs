@@ -526,7 +526,7 @@ public class GR_Basic : GameRule
                         }
                         else
                         {
-                            other.GetComponent<Player>().enableController(joystickNumber, "");
+                         //   other.GetComponent<Player>().enableController(joystickNumber, "");
                         }
 
                         other.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);

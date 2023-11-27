@@ -777,11 +777,14 @@ public class Ball : MonoBehaviour {
 
     public void BallReleased()
     {
+       // print("Ball Released");
+
         // Alex code to increase ball speed when thrown
         // Debug.Log($" speed on release is {rigidbody.velocity}");
         rigidbody.velocity = rigidbody.velocity * throwSpeedMultiplier;
         // Debug.Log($" now the speed is {rigidbody.velocity}");
         //
+
 
 
         Player playerScript = GetNearestPlayer();
@@ -825,9 +828,12 @@ public class Ball : MonoBehaviour {
         return nearestPlayer;
     }
 
+    public void Highlight()
+    {
+
+     //   print("Ball Highlight");
+    }
+
 }
         
    
-
-
-

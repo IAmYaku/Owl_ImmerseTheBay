@@ -297,29 +297,8 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void ResetTeam1Animators()
-    {   
-            foreach (GameObject player in tm1.players)
-            {
-                
-            Animator playerAnim = player.transform.GetChild(0).gameObject.GetComponent<PlayerConfiguration>().animator;
 
-            playerAnim.SetBool("Running", false);
-            playerAnim.SetBool("hasBall", false);
 
-        }
-    }
-
-    private void ResetTeam2Animators()
-    {
-        foreach (GameObject player in tm2.players)
-        {
-            Animator playerAnim = player.transform.GetChild(0).gameObject.GetComponent<PlayerConfiguration>().animator;
-            playerAnim.SetBool("Running", false);
-            playerAnim.SetBool("hasBall", false);
-
-        }
-    }
 
 
         internal void SetStart(bool v)
@@ -442,15 +421,15 @@ public class LevelManager : MonoBehaviour
       //  SetLogFeed();
       //  SetTimer();
 
-      //  InstantiateBalls();
+        InstantiateBalls();
 
       //  tm1.StandByPlayers(false);
       //  tm2.StandByPlayers(false);
 
         //GetReferee or game rule
 
-       // start = true;
-       //  ready = true;                                         
+        start = true;
+         ready = true;                                         
 
         print("Level Loaded");
     }
@@ -549,18 +528,25 @@ public class LevelManager : MonoBehaviour
 
     private void InstantiateBalls()
     {
-        List<Vector3> ballSpwanLocations = stage.GetBallSpawnLocations(gameRule.ballCount);
-        
-        balls = new List<GameObject>();
+        balls = GameObject.FindGameObjectsWithTag("Ball").ToList();
 
-        for (int i =0; i< gameRule.ballCount; i++)
+        if (balls.Count <1 )
         {
-         //   print("location = " + ballSpwanLocations[i]);
-            GameObject ball = GlobalConfiguration.Instance.InstantiateBallPrefab(ballSpwanLocations[i]);
-            ball.GetComponent <Ball>().floorMarker.GetComponent<FloorMarker>().SetGroundObject(stage.playingLevelPlane);
-            balls.Add(ball);
+            int ballCount = 4 /* gameRule.ballCount*/ ;
 
+            List<Vector3> ballSpwanLocations = stage.GetBallSpawnLocations(ballCount);
+
+
+
+            for (int i = 0; i < ballCount; i++)
+            {
+                //   print("location = " + ballSpwanLocations[i]);
+                GameObject ball = GlobalConfiguration.Instance.InstantiateBallPrefab(ballSpwanLocations[i]);
+                balls.Add(ball);
+
+            }
         }
+
     }
 
 
@@ -1051,7 +1037,7 @@ public class LevelManager : MonoBehaviour
 
 
             player.GetComponentInChildren<Rigidbody>().isKinematic = true;
-            player.GetComponentInChildren<Animator>().runtimeAnimatorController = player.GetComponentInChildren<PlayerConfiguration>().play;
+           // player.GetComponentInChildren<Animator>().runtimeAnimatorController = player.GetComponentInChildren<PlayerConfiguration>().play;
 
             if (player.GetComponent<Player>().hasJoystick)
             {
@@ -1092,7 +1078,7 @@ public class LevelManager : MonoBehaviour
 
             else
             {
-                  player.GetComponentInChildren<Animator>().runtimeAnimatorController = player.GetComponentInChildren<PlayerConfiguration>().play;
+                 // player.GetComponentInChildren<Animator>().runtimeAnimatorController = player.GetComponentInChildren<PlayerConfiguration>().play;
                 player.GetComponentInChildren<Rigidbody>().isKinematic = false;
                 player.GetComponentInChildren<Controller3D>().enabled = true;
                 Controller3D.throwMagnetism = throwMag;
@@ -1300,10 +1286,8 @@ public class LevelManager : MonoBehaviour
             playerconfigObject.SetActive(true);
             player.GetComponent<Player>().isOut = false;
 
-            Animator playerAnim = playerconfigObject.GetComponent<PlayerConfiguration>().animator;
+            //Animator playerAnim = playerconfigObject.GetComponent<PlayerConfiguration>().animator;
 
-             playerAnim.Rebind();
-             playerAnim.Update(0f);
          //   print("ReEnabling player");
 
            // playerconfigObject.GetComponent<SpriteRenderer>().enabled = true;                  
@@ -1461,6 +1445,8 @@ public class LevelManager : MonoBehaviour
         roundLevel = 0;
         isAtScene = false;
 
+        
+        /*
         foreach (GameObject player in tm1.players)
         {
             Controller3D pControl = player.GetComponent<Player>().controller3DObject.GetComponent<Controller3D>();
@@ -1470,6 +1456,8 @@ public class LevelManager : MonoBehaviour
             }
 
         }
+
+        */
 
         tm2.Clear();
 
@@ -1514,9 +1502,9 @@ public class LevelManager : MonoBehaviour
                 team2Points++;
                 team2Scored = true;
                // float rand = UnityEngine.Random.Range(-10.0f, 10.0f);
-                WinDisplay(new Vector3(100, 0, 0));
-                PlayCheer();
-                PlayWhistle();
+              //  WinDisplay(new Vector3(100, 0, 0));
+              //  PlayCheer();
+               // PlayWhistle();
                 print("~!!! Team 2 WiNS !!!~");
             }
             if (team2Points > gameRule.roundsToWin)
@@ -1534,12 +1522,15 @@ public class LevelManager : MonoBehaviour
                 team1Points++;
                 team1Scored = true;
                 //float rand = UnityEngine.Random.Range(-10.0f, 10.0f);
-                WinDisplay(new Vector3(-100, 0,0));
-                audioManager.PlayCheer();
-                audioManager.PlayWhistle();
+             //   WinDisplay(new Vector3(-100, 0,0));
+               // audioManager.PlayCheer();
+               // audioManager.PlayWhistle();
                 print("~!!! Team 1 WiNS !!!~");
             }
-            if (team1Points > gameRule.roundsToWin)
+
+            int roundsToWin = 1 /*gameRule.roundsToWin*/;
+
+            if (team1Points > roundsToWin )
             {
                 gameOver = true;
                 team1Wins = true;

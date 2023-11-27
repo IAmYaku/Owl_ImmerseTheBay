@@ -308,9 +308,9 @@ public class Controller3D : MonoBehaviour
     #region Key Input Logic
     private void CheckKeyInput()
     {
-        int playerIndex = playerScript.GetJoystick().number;
+      //  int playerIndex = playerScript.GetJoystick().number;
 
-        if (playerIndex == -1)
+     //   if (playerIndex == -1)
         {
             CheckKeyMove();
             CheckKeyGrab();
@@ -950,9 +950,9 @@ public class Controller3D : MonoBehaviour
         else
         {
             // drop
-            int playerIndex = playerScript.GetJoystick().number;
+        //    int playerIndex = playerScript.GetJoystick().number;
 
-            if (ballGrabbed && playerIndex != -1 && catchReady)
+         //   if (ballGrabbed && playerIndex != -1 && catchReady)
             {
 
                 DropBall();
