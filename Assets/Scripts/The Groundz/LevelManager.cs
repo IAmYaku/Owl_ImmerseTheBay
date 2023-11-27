@@ -332,8 +332,8 @@ public class LevelManager : MonoBehaviour
 
                         String outType = "h";
                         Remove(player, outType, ball);
-                        audioManager.PlayOuts();
-                        fXManager.InstantiateReboundFX(ball, throwerObject);
+                        //audioManager.PlayOuts();
+                        //fXManager.InstantiateReboundFX(ball, throwerObject);
 
                     }
                     if (hits.ContainsKey(ball))
@@ -677,7 +677,7 @@ public class LevelManager : MonoBehaviour
             Dictionary<int[], String> dict = new Dictionary<int[], string>();
             dict.Add(array, outType);
             outLog.Add(dict);
-            LogOuts();
+          //  LogOuts();
             RemoveCatch(ball);
         }
         else
@@ -691,7 +691,7 @@ public class LevelManager : MonoBehaviour
             Dictionary<int[], String> dict = new Dictionary<int[], string>();
             dict.Add(array, outType);
             outLog.Add(dict);
-            LogOuts();
+          //  LogOuts();
         }
 
      //   player.GetComponent<Player>().DisablePlayer();
