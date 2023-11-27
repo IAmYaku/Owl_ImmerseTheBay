@@ -28,8 +28,6 @@ public class LevelManager : MonoBehaviour
     public Stage stage;                // make privates
     public CanvasGeneralGame cgg;
 
-    CamController mainCamController;
-    CamController perspCamController;
 
     bool isAtScene;
 
@@ -270,20 +268,13 @@ public class LevelManager : MonoBehaviour
         }       
            
     }
-    void PostGameWinScreen()
-    {
-        postGameScript.arcadeWin(tm1.players[0].GetComponent<Player>().type);
-    }
 
-    void PostGameLoseScreen()
-    {
-        postGameScript.arcadeDefeat(tm1.players[0].GetComponent<Player>().type);
-        postGameScript.SelectRestartArcadeDefeatButton();
-    }
+
+
 
     void LoadNextArcadeScene()
     {
-        SceneManager.LoadScene(GetArcadeSceneName());
+      
     }
     internal bool GetSceneVisited(int buildIndex)
     {
@@ -334,7 +325,7 @@ public class LevelManager : MonoBehaviour
                     {
                         GameObject throwerObject = throws[ball];
                         Player throwerPlayerScript = throwerObject.GetComponent<Player>();
-                        throwerPlayerScript.TriggerWinFX();
+                        //throwerPlayerScript.TriggerWinFX();
 
                         player.GetComponent<Player>().isOut = true;                          // done twixce in remove... not sure where to put
                         // OutDisplayX2 (player.transform.GetChild (0).transform,ball);
@@ -363,7 +354,7 @@ public class LevelManager : MonoBehaviour
 
     internal void SetCurrentOpp(string firstOppChar)
     {
-        arcadeScript.SetCurrentOpp(firstOppChar);  // should be the last in facedOpps index
+        //arcadeScript.SetCurrentOpp(firstOppChar);  // should be the last in facedOpps index
     }
 
     internal List<GameObject> GetPlayers()
@@ -391,7 +382,7 @@ public class LevelManager : MonoBehaviour
 
         foreach (GameObject player in tm1.players)
         {
-            if (player.GetComponent<Player>().hasJoystick)
+        //    if (player.GetComponent<Player>().hasJoystick)
             {
                 returnMe.Add(player);
             }
@@ -434,26 +425,7 @@ public class LevelManager : MonoBehaviour
         print("Level Loaded");
     }
 
-    internal GameRule CreateGameRule(string ruleType)
-    {
-        if (ruleType == "basic")
-        {
-            gameRule = new GR_Basic(gameMode, this);
-        }
 
-        if (ruleType == "stock")
-        {
-            gameRule = new GR_Stock(gameMode, this);
-        }
-
-        if (ruleType == "arcade")
-        {
-            gameRule = new GR_Basic(gameMode, this);
-            gameRule.SetRoundsToWin(3);
-        }
-
-        return gameRule;
-    }
 
     private void SetTeamScoreUI(int team)
     {
@@ -489,17 +461,17 @@ public class LevelManager : MonoBehaviour
 
             for (int i=0; i < playerCount; i++)
             {
-                playerUIs[i].GetComponent<Image>().sprite = tm1.players[i].GetComponent<Player>().playerIconImage;
+               // playerUIs[i].GetComponent<Image>().sprite = tm1.players[i].GetComponent<Player>().playerIconImage;
                 playerUIs[i].SetActive(true);
 
                 GameObject playerPower = playerUIs[i].transform.GetChild(0).gameObject;
                 playerPower.SetActive(true);
-                tm1.players[i].GetComponent<Player>().powerBarObject = playerPower ;
+               // tm1.players[i].GetComponent<Player>().powerBarObject = playerPower ;
                
 
                 GameObject playerStamina = playerUIs[i].transform.GetChild(1).gameObject;
                 playerStamina.SetActive(true);
-                tm1.players[i].GetComponent<Player>().staminaBarObject  =   playerStamina ;
+              //  tm1.players[i].GetComponent<Player>().staminaBarObject  =   playerStamina ;
             
             }
         }
@@ -509,17 +481,17 @@ public class LevelManager : MonoBehaviour
 
             for (int i = 0; i < playerCount; i++)
             {
-                playerUIs[i].GetComponent<Image>().sprite = tm2.players[i].GetComponent<Player>().playerIconImage;
+               // playerUIs[i].GetComponent<Image>().sprite = tm2.players[i].GetComponent<Player>().playerIconImage;
                 playerUIs[i].SetActive(true);
 
                 GameObject playerPower = playerUIs[i].transform.GetChild(0).gameObject;
                 playerPower.SetActive(true);
-                tm2.players[i].GetComponent<Player>().powerBarObject = playerPower;
+              //  tm2.players[i].GetComponent<Player>().powerBarObject = playerPower;
 
 
                 GameObject playerStamina = playerUIs[i].transform.GetChild(1).gameObject;
                 playerStamina.SetActive(true);
-                tm2.players[i].GetComponent<Player>().staminaBarObject = playerStamina;
+              //  tm2.players[i].GetComponent<Player>().staminaBarObject = playerStamina;
             }
 
         }
@@ -555,15 +527,6 @@ public class LevelManager : MonoBehaviour
         cgg = x;
     }
 
-    internal void SetMainCamera(CamController cC)
-    {
-        mainCamController = cC;
-    }
-
-    internal void SetPerspCamera(CamController cC)
-    {
-        perspCamController = cC;
-    }
 
     public void SetMode(string mode)
     {
@@ -621,14 +584,14 @@ public class LevelManager : MonoBehaviour
 
         if (gameMode == "arcade")
         {
-            CreateGameRule("arcade");
-            arcadeScript = new ArcadeMode(this);
+           // CreateGameRule("arcade");
+           // arcadeScript = new ArcadeMode(this);
             print("Arcade");
         }
 
         if (gameMode == "multiplayer")
         {
-            CreateGameRule("basic");
+        //    CreateGameRule("basic");
             print("multiplayer");
         }
     }
@@ -731,8 +694,8 @@ public class LevelManager : MonoBehaviour
             LogOuts();
         }
 
-        player.GetComponent<Player>().DisablePlayer();
-        player.GetComponent<Player>().PlayOutSound();
+     //   player.GetComponent<Player>().DisablePlayer();
+      //  player.GetComponent<Player>().PlayOutSound();
 
 
 
@@ -802,12 +765,12 @@ public class LevelManager : MonoBehaviour
             else
             {
                 tm1.players[index].GetComponentInChildren<Controller3D>().enabled = true;
-                tm1.players[index].GetComponent<Player>().playerAura.SetActive(true);
+             //   tm1.players[index].GetComponent<Player>().playerAura.SetActive(true);
                 tm1.players[index].GetComponentInChildren<Rigidbody>().isKinematic = false;
             }
 
             tm1.players[index].transform.GetChild(1).gameObject.SetActive(true);
-            tm1.players[index].transform.GetChild(0).transform.position = tm1.players[index].GetComponent<Player>().childPos0;
+           // tm1.players[index].transform.GetChild(0).transform.position = tm1.players[index].GetComponent<Player>().childPos0;
           //  tm1.players[index].GetComponentInChildren<SpriteRenderer>().enabled = true;
             tm1.players[index].GetComponentInChildren<CapsuleCollider>().enabled = true;
             tm1.players[index].GetComponentInChildren<SphereCollider>().enabled = true;
@@ -836,11 +799,11 @@ public class LevelManager : MonoBehaviour
             {
                 tm2.players[index].GetComponentInChildren<Controller3D>().enabled = true;
                 tm2.players[index].GetComponentInChildren<Rigidbody>().isKinematic = false;
-                tm2.players[index].GetComponent<Player>().playerAura.SetActive(true);
+             //   tm2.players[index].GetComponent<Player>().playerAura.SetActive(true);
             }
 
             tm2.players[index].transform.GetChild(1).gameObject.SetActive(true);
-            tm2.players[index].transform.GetChild(0).transform.position = tm2.players[index].GetComponent<Player>().childPos0;
+        //    tm2.players[index].transform.GetChild(0).transform.position = tm2.players[index].GetComponent<Player>().childPos0;
           //  tm2.players[index].GetComponentInChildren<SpriteRenderer>().enabled = true;
             tm2.players[index].GetComponentInChildren<CapsuleCollider>().enabled = true;
             tm2.players[index].GetComponentInChildren<SphereCollider>().enabled = true;
@@ -861,7 +824,7 @@ public class LevelManager : MonoBehaviour
                 PlayerConfiguration pConfig = playerComp.playerConfigObject.GetComponent<PlayerConfiguration>();
                 pConfig.RemoveContact();
 
-                playerComp.SetHitFX(false);
+           //     playerComp.SetHitFX(false);
 
                     /*
                     ParticleSystem ps = player.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();                    //gr land ... I dont even think this gets unnormalized
@@ -1017,8 +980,7 @@ public class LevelManager : MonoBehaviour
         countDown = countDownNum;
         timer = 0;
         isCelebrating = false;
-        mainCamController.GetComponent<CamController>().Normal();
-        perspCamController.GetComponent<CamController>().Normal();
+
         hits.Clear();
         throws.Clear();
         team1Scored = false;
@@ -1039,16 +1001,16 @@ public class LevelManager : MonoBehaviour
             player.GetComponentInChildren<Rigidbody>().isKinematic = true;
            // player.GetComponentInChildren<Animator>().runtimeAnimatorController = player.GetComponentInChildren<PlayerConfiguration>().play;
 
-            if (player.GetComponent<Player>().hasJoystick)
+          //  if (player.GetComponent<Player>().hasJoystick)
             {
 
-                if (player.GetComponentInChildren<Controller3D>().ballGrabbed == true)
+             //   if (player.GetComponentInChildren<Controller3D>().ballGrabbed == true)
                 {
-                    player.GetComponentInChildren<Controller3D>().DropBall();
-                    player.GetComponentInChildren<Controller3D>().NormalAccelerationRate();
+            //        player.GetComponentInChildren<Controller3D>().DropBall();
+            //        player.GetComponentInChildren<Controller3D>().NormalAccelerationRate();
                 }
             }
-            else
+            //else
             {
                 if (player.GetComponentInChildren<AI>())
                 {
@@ -1081,7 +1043,7 @@ public class LevelManager : MonoBehaviour
                  // player.GetComponentInChildren<Animator>().runtimeAnimatorController = player.GetComponentInChildren<PlayerConfiguration>().play;
                 player.GetComponentInChildren<Rigidbody>().isKinematic = false;
                 player.GetComponentInChildren<Controller3D>().enabled = true;
-                Controller3D.throwMagnetism = throwMag;
+              //  Controller3D.throwMagnetism = throwMag;
               
 
             }
@@ -1240,7 +1202,7 @@ public class LevelManager : MonoBehaviour
 
        // if (mode == "Basic" && (Controller3D.throwMagnetism - throwDecScalar) >= 0.0)
         {
-            Controller3D.throwMagnetism -= throwDecScalar;
+        //    Controller3D.throwMagnetism -= throwDecScalar;
         }
 
     }
@@ -1248,14 +1210,12 @@ public class LevelManager : MonoBehaviour
 
     public void CamShake(float intensity, Transform playerT)
     {
-        mainCamController.TrigCamShake(intensity, playerT);
-        perspCamController.TrigCamShake(intensity, playerT);
+
     }
 
     internal void CamGlitch(float ballVelocity)
     {
-        mainCamController.GetComponent<CamController>().ActivateGlitch(ballVelocity);
-       // mainCamController.GetComponent<CamController>().ActivateGlitch(ballVelocity);
+
     }
     public void GameRestart()
     {
@@ -1266,8 +1226,6 @@ public class LevelManager : MonoBehaviour
         timer = 0;
         celebrationTime = 5.0f;
         isCelebrating = false;
-        mainCamController.Normal();
-        perspCamController.Normal();
         hits.Clear();
         throws.Clear();
 
@@ -1297,7 +1255,7 @@ public class LevelManager : MonoBehaviour
             playerconfigObject.GetComponent<Rigidbody>().useGravity = true;
             playerconfigObject.GetComponent<Rigidbody>().isKinematic = false;
           //  player.GetComponent<Player>().shadow.SetActive(true);
-            player.GetComponent<Player>().playerAura.SetActive(true);  //aura
+            //player.GetComponent<Player>().playerAura.SetActive(true);  //aura
 
 
             if (player.GetComponent<Player>().hasAI)
@@ -1315,10 +1273,10 @@ public class LevelManager : MonoBehaviour
             }
             else
             {
-                if (player.GetComponentInChildren<Controller3D>().ballGrabbed == true)
+              //  if (player.GetComponentInChildren<Controller3D>().ballGrabbed == true)
                 {
-                    player.GetComponentInChildren<Controller3D>().DropBall();
-                    player.GetComponentInChildren<Controller3D>().NormalAccelerationRate();
+              //      player.GetComponentInChildren<Controller3D>().DropBall();
+              //      player.GetComponentInChildren<Controller3D>().NormalAccelerationRate();
                 }
 
                 player.GetComponentInChildren<Rigidbody>().isKinematic = false;
@@ -1330,7 +1288,7 @@ public class LevelManager : MonoBehaviour
             //    player.GetComponentInChildren<Controller3D>().SetTouch0FXActivate(false);
 
                 //   player.GetComponentInChildren<Controller3D>().animator.runtimeAnimatorController = player.GetComponentInChildren<Controller3D>().play;
-                player.GetComponentInChildren<Controller3D>().FaceOpp();
+            //    player.GetComponentInChildren<Controller3D>().FaceOpp();
             }
 
         }
@@ -1386,8 +1344,7 @@ public class LevelManager : MonoBehaviour
         timer = 0;
         celebrationTime = 5.0f;
         isCelebrating = false;
-        mainCamController.Normal();
-        perspCamController.Normal();
+
         hits.Clear();
         throws.Clear();
         team1Scored = false;
@@ -1404,12 +1361,14 @@ public class LevelManager : MonoBehaviour
         roundLevel = 0;
         isAtScene = false;
 
+        /*
         Controller3D.hasGrabMag = false;
         Controller3D.grabMag = 10f;
         Controller3D.hasThrowMag = false;
         Controller3D.hasSeekVec = false;
         Controller3D.throwMagnetism = 5.65f;
         Controller3D.maxSeekVec = 100f;
+        */
 
         tm1.Clear();
         tm2.Clear();
@@ -1427,8 +1386,6 @@ public class LevelManager : MonoBehaviour
         timer = 0;
         celebrationTime = 5.0f;
         isCelebrating = false;
-        mainCamController.Normal();
-        perspCamController.Normal();
         hits.Clear();
         throws.Clear();
         team1Scored = false;
@@ -1578,7 +1535,7 @@ public class LevelManager : MonoBehaviour
     {                                                
         foreach (GameObject player in tm1.players)
         {
-            if (player.GetComponent<Player>().isOut && player.GetComponent<Player>().hasJoystick)
+          //  if (player.GetComponent<Player>().isOut && player.GetComponent<Player>().hasJoystick)
             {
                
                 foreach (GameObject other in tm1.players)
@@ -1587,11 +1544,11 @@ public class LevelManager : MonoBehaviour
                     {
                         //if (GlobalConfiguration.Instance.GetMyJoysticks().Count >= 1)
                         {
-                            other.GetComponent<Player>().ControlSwap(player);
+                           // other.GetComponent<Player>().ControlSwap(player);
                         }
 
                         player.GetComponent<Player>().enableAI();
-                        player.GetComponent<Player>().DisablePlayer();
+                    //    player.GetComponent<Player>().DisablePlayer();
 
                         break;
                     }
@@ -1600,9 +1557,9 @@ public class LevelManager : MonoBehaviour
         }
         foreach (GameObject player in tm2.players)
         {
-            if (player.GetComponent<Player>().isOut && player.GetComponent<Player>().hasJoystick)
+          //  if (player.GetComponent<Player>().isOut && player.GetComponent<Player>().hasJoystick)
             {
-                int joystickNumber = player.GetComponent<Player>().joystick.number;
+             //   int joystickNumber = player.GetComponent<Player>().joystick.number;
                 foreach (GameObject other in tm2.players)
                 {
                     if (other.GetComponent<Player>().hasAI && other.GetComponent<Player>().isOut == false)
@@ -1610,11 +1567,11 @@ public class LevelManager : MonoBehaviour
 
                      //   if (GlobalConfiguration.Instance.GetMyJoysticks().Count >= 1)
                         {
-                            other.GetComponent<Player>().ControlSwap(player);
+                        //    other.GetComponent<Player>().ControlSwap(player);
                         }
 
                         player.GetComponent<Player>().enableAI();
-                        player.GetComponent<Player>().DisablePlayer();
+                      //  player.GetComponent<Player>().DisablePlayer();
 
                         break;
                     }
@@ -1623,14 +1580,8 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public string GetArcadeSceneName()
-    {
-        return arcadeScript.GetScene();
-    }
-    internal int GetArcadeSceneIndex()
-    {
-        return arcadeScript.GetSceneIndex();
-    }
+
+
 
 
     public void IncreaseDifficultyScalar(float x)
@@ -1638,10 +1589,7 @@ public class LevelManager : MonoBehaviour
         difficultyScaler += x;
     }
 
-    public void AddOppsFaced(string x)
-    {
-        arcadeScript.AddOppCharacter(x);
-    }
+
 
 
 }

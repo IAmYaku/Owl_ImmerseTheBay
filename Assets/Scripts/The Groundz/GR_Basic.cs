@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GR_Basic : GameRule
 {
+    /*
     LevelManager levelManager;
 
     string gameMode;
@@ -246,8 +247,8 @@ public class GR_Basic : GameRule
         }
         return false;
     }
-
-    */
+    //
+    
 
     internal void ClearContacts(GameObject ball)
     {
@@ -561,5 +562,5 @@ public class GR_Basic : GameRule
             }
         }
     }
-
+    */
 }

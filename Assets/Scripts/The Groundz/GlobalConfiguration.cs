@@ -519,7 +519,7 @@ public class GlobalConfiguration : MonoBehaviour
 
         for (int i = 0; i < playerCount; i++)
         {
-            if (players[i].GetComponent<Player>().team == team && (clearAdded && players[i].GetComponent<Player>().aiObject.GetComponent<AI>().addedAtStage))
+          //  if (players[i].GetComponent<Player>().team == team && (clearAdded && players[i].GetComponent<Player>().aiObject.GetComponent<AI>().addedAtStage))
             {
                 toRemove.Add(players[i]);
 

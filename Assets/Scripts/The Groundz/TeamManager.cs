@@ -188,7 +188,7 @@ public class TeamManager : MonoBehaviour
 
         foreach (GameObject player in players)
         {
-            if (player.GetComponent<Player>().aiObject.GetComponent<AI>().addedAtStage)
+         //   if (player.GetComponent<Player>().aiObject.GetComponent<AI>().addedAtStage)
             {
                 toRemove.Add(player);
             }

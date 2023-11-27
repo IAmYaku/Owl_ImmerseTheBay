@@ -7,14 +7,19 @@ public class PlayerConfiguration : MonoBehaviour
 {
     GameObject parent;
     LevelManager levelManager;
-    GameObject playerAura;
+
+    public GameObject playerAura;
+    public GameObject aiObject;
     Player player;
-    Controller3D controller3D;
+    //Controller3D controller3D;
     AI ai;
 
-    static int healthStock = 3;    // Set from gameRule    
+    GameObject hitObject;
+    GameObject catchObject;
+    GameObject winObject;
 
-    
+    public GameObject staminaBarObject;
+    public GameObject powerBarObject;
 
     public AudioSource audioSource;
     public SpriteRenderer spriteRenderer;
@@ -22,7 +27,12 @@ public class PlayerConfiguration : MonoBehaviour
     public SphereCollider headCollider;   // extra points +?, sfx, vfx, etc
     public CapsuleCollider bodyCollider;
 
+    public AudioClip catchSound;
+    public AudioClip[] throwSounds;
+    public AudioClip dodgeSound;
 
+    public AudioClip outSound;
+    public AudioClip footsteps;
 
     bool onGround;
     bool isJumping;
@@ -35,7 +45,10 @@ public class PlayerConfiguration : MonoBehaviour
     GameObject ballHit;
 
 
-
+    private bool isDeRendering;
+    private float dR_Cool;
+    private float drC_t0;
+    private float drC_tF;
 
 
     void Start()
@@ -169,7 +182,7 @@ public class PlayerConfiguration : MonoBehaviour
         }
        else
         {
-            controller3D.SlowDownByVelocity(delayTime, stallTime);
+          //  controller3D.SlowDownByVelocity(delayTime, stallTime);
         }
     }
 
@@ -210,50 +223,8 @@ public class PlayerConfiguration : MonoBehaviour
     }
 
 
-    private void TurnInCollisionFalse()
-    {
-        controller3D.SetAccelerationRate(.85f);
-      //  inBallCollision = false;
-
-    }
-
-    internal void TriggerHitAnimation()
-    {
-
-    }
-
-    private void TriggerKnockBack(Vector3 ballVelocity, bool ballIsSupered)                                                                    // important to revitalize
-    {
 
 
-        float superMultipliier = 2f;
-        Vector3 knockBackForce = new Vector3(.025f, .0125f, .025f);
-        float knockBackTimeMult =  1f;
-
-        if (ballIsSupered)
-        {
-            knockBackForce *= superMultipliier;
-        }
-
-        Vector3 knockBackVec = Vector3.Scale(ballVelocity, knockBackForce);
-
-
-        // Gotta revisit knockedOut and knockback
-
-        if (player.hasAI)
-        {
-            ai.SetKnockedOut(knockBackVec.magnitude * knockBackTimeMult);
-           // ai.SetNavVelocity(ai.navMeshAgent.velocity + knockBackVec);
-
-
-        }
-        else
-        {
-          controller3D.SetKnockedOut(knockBackVec.magnitude * knockBackTimeMult);
-          //  rigidbody.velocity += knockBackVec;
-        }
-      
-    }
 
     private void DelayPause(float hitPauseDuration, float hitPausePreDelay)
     {
@@ -269,8 +240,163 @@ public class PlayerConfiguration : MonoBehaviour
         levelManager.HitPause();
     }
 
-    internal void SetOutAnimation(bool v)
+
+
+
+    public void DisablePlayer()
     {
+        /*
+        isOut = true;
+       
+        if (hasJoystick)
+        {
+            if (controller3D.ballGrabbed)
+            {
+                controller3D.DropBall();
+            }
+
+            controller3D.isKnockedOut = false;
+            controller3D.playerConfigObject.GetComponent<PlayerConfiguration>().ballContact = false;
+            hitObject.SetActive(false);
+            playerAura.gameObject.SetActive(false);
+
+        }
+
+        else
+        {
+            if (aiScript.enabled)
+            {
+                if (aiScript.ballGrabbed)
+                {
+                    aiScript.DropBall();
+                }
+                aiScript.isKnockedOut = false;
+                aiScript.playerConfigObject.GetComponent<PlayerConfiguration>().ballContact = false;
+                aiScript.enabled = false;
+                hitObject.SetActive(false);
+
+                NavMeshAgent navMeshAgent = playerConfigObject.GetComponent<NavMeshAgent>();
+                navMeshAgent.enabled = false;
+
+            }
+        }
+
+        DeRender();
+        */
+    }
+
+    public void DeRender()
+    {
+        //playerConfigObject.GetComponent<PlayerConfiguration>().SetOutAnimation(true);
+        isDeRendering = true;
+        dR_Cool = 1f;                                       // careful here, things mess up
+        drC_t0 = Time.realtimeSinceStartup;
+       // GetComponent<CapsuleCollider>().enabled = false;
+        //GetComponent<SphereCollider>().enabled = false;
+        //GetComponent<Rigidbody>().isKinematic = true;
 
     }
+
+    internal void playFootsteps()
+    {
+        if (!audioSource.isPlaying)
+        {
+            audioSource.volume = .85f;
+            audioSource.clip = footsteps;
+            audioSource.Play();
+        }
+
+    }
+
+    private AudioClip GetThrowSound()
+    {
+        /*
+                if (throwSounds.Length > 0)
+                {
+                    return throwSounds[0];
+                }
+                else
+                {
+                    return null;
+                }
+        */
+        return null;
+    }
+
+
+    internal void PlayOutSound()
+    {
+        /*
+        playerAudioSource.clip = outSound;
+        playerAudioSource.pitch += UnityEngine.Random.Range(-3f, 3f);
+        playerAudioSource.volume = .25f;
+        playerAudioSource.Play();
+
+        NormalAudioSource();
+        */
+    }
+
+    internal void PlayDodgeSound()
+    {
+        /*
+
+        playerAudioSource.clip = dodgeSound;
+        playerAudioSource.pitch += UnityEngine.Random.Range(1f, 1.5f);
+        playerAudioSource.volume = .85f;
+        playerAudioSource.Play();
+
+        NormalAudioSource();
+        */
+
+    }
+    internal void playThrowSound()
+    {
+        /*
+        playerAudioSource.volume = 1f;
+        playerAudioSource.pitch += UnityEngine.Random.Range(1f, 1.5f);
+        playerAudioSource.clip = GetThrowSound();
+        playerAudioSource.Play();
+
+        NormalAudioSource();
+        */
+    }
+
+    private void NormalAudioSource()
+    {
+        /*
+        playerAudioSource.pitch = 1;
+        playerAudioSource.volume = .5f;
+        */
+    }
+
+
+
+    internal void SetHitFX(bool x)
+    {
+        hitObject.SetActive(x);
+    }
+
+    internal void TriggerCatchFX()
+    {
+        catchObject.SetActive(true);
+        Invoke("DisableCatchFX", 2f);
+    }
+
+    internal void DisableCatchFX()
+    {
+        catchObject.SetActive(false);
+
+    }
+
+    internal void TriggerWinFX()
+    {
+        winObject.SetActive(true);
+        Invoke("DisableWinFX", 2f);
+    }
+    internal void DisableWinFX()
+    {
+        winObject.SetActive(false);
+
+    }
+
 }

@@ -625,7 +625,7 @@ public class AI : MonoBehaviour {
                                 ballCaught = true;     // what if therre's multiple balls
                                 ResetBallCaught(.5f);
 
-                                playerScript.SetHitFX(false);
+                               // playerScript.SetHitFX(false);
                                 ball.GetComponent<Ball>().playCatch();
                                 levelManager.ClearContacts(ball);
                                 levelManager.AddCatch(ball, parent);
@@ -1267,7 +1267,7 @@ public class AI : MonoBehaviour {
         ball.GetComponent<Ball>().Throw(throww, playerScript.color, true, magnetism,targetedOpp,renderLength, 1f);
         levelManager.AddThrow(ball, parent);
         ballGrabbed = false;
-        throwPower = gameObject.GetComponentInParent<Player>().GetThrowPower0();
+        //throwPower = gameObject.GetComponentInParent<Player>().GetThrowPower0();
 
         if (animator)
         {
@@ -1534,12 +1534,12 @@ public class AI : MonoBehaviour {
                     }
                     else
                     {
-                        if (opp.GetComponentInChildren<Controller3D>().ballGrabbed)
+                      //  if (opp.GetComponentInChildren<Controller3D>().ballGrabbed)
                         {
                             returnMe--;
                             returnMe -= (int)(350 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));
                         }
-                        else
+                     //   else
                         {
                             returnMe += (int)(200 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));
                         }
@@ -1568,12 +1568,12 @@ public class AI : MonoBehaviour {
                     }
                     else
                     {
-                        if (opp.GetComponentInChildren<Controller3D>().ballGrabbed)
+                       // if (opp.GetComponentInChildren<Controller3D>().ballGrabbed)
                         {
                             returnMe--;
                             returnMe -= (int)(350 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));
                         }
-                        else
+                    //    else
                         {
                             returnMe += (int)(50 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));
                         }
@@ -1816,7 +1816,7 @@ public class AI : MonoBehaviour {
         level = 1;
         navMeshAgent.speed = navSpeed;
         navMeshAgent.acceleration = navXceleration;
-        throwPower = playerScript.throwPower0;
+       // throwPower = playerScript.throwPower0;
         randomThrowFactor = randomThrowFactor0;
         catchProb = .001f;
         catchLagTime = .5f;  // *arb

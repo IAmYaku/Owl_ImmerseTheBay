@@ -245,6 +245,7 @@ public class Ball : MonoBehaviour {
 
     private void Check4PlayerProx()
     {
+        /*
         isInPickUpRange = false;
 
         foreach (GameObject player in GlobalConfiguration.Instance.GetPlayers())
@@ -264,6 +265,7 @@ public class Ball : MonoBehaviour {
         {
             PickUpDeactivate();
         }
+        */
     }
 
     void OnCollisionEnter(Collision collision)
