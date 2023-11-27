@@ -7,6 +7,7 @@ using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using System.Threading;
+using Foundry;
 
 public class Player : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class Player : MonoBehaviour
     private float fxSpeed = 1f;
 
 
-    
+    GameObject ball;
 
 
     private void Awake()
@@ -112,68 +113,69 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-       if (levelManager.isPlaying)
-       {
-
-           if (hasJoystick)
-           {
-               staminaCool = (stamina - controller3D.staminaCool);
-               staminaSR.material.SetFloat("_Rotation", staminaCool / 300f);
-               staminaBarObject.GetComponent<Slider>().value = staminaCool;
-               powerCool = (power - controller3D.superCoolDown);
-               powerSR.material.SetFloat("_Rotation", powerCool / 60f);
-               powerBarObject.GetComponent<Slider>().value = powerCool;
-           }
-           if (hasAI)
-           {
-               staminaCool = (int)(stamina - aiScript.staminaCool);
-               staminaBarObject.GetComponent<Slider>().value = staminaCool;
-               powerCool = (int)(power - aiScript.superCoolDown);
-               powerBarObject.GetComponent<Slider>().value = powerCool;
-           }
-
-           if (dodgeActivated)
-           {
-               /*
-               fxSpeed = 3f;
-               spikeSize = 0.5f;
-               stars.simulationSpeed = fxSpeed;
-               spikes.simulationSpeed = fxSpeed;
-               ring.simulationSpeed = fxSpeed * 4f;
-               spikes.startSize = spikeSize;
-
-
-           }
-           else
-           {
-               /*
-               if (fxSpeed > 1f)
-               {
-                   fxSpeed -= .25f;
-                   spikeSize = .2f;
-                   stars.simulationSpeed = fxSpeed;
-                   spikes.simulationSpeed = fxSpeed;
-                   ring.simulationSpeed = fxSpeed * 4f;
-                   spikes.startSize = spikeSize;
-
-               }
-
-           }
-       }
-
-       if (isDeRendering)
-       {
-           drC_tF = Time.realtimeSinceStartup;
-           float t = drC_tF - drC_t0;
-           DeRender(t);
-       }
-       */
+       
 
     }
 
 
+    public void BallReleased()
+    {
+        // print("Ball Released");
 
+        // Alex code to increase ball speed when thrown
+        // Debug.Log($" speed on release is {rigidbody.velocity}");
+        float throwSpeedMultiplier = 5f;
+        ball.GetComponent<Rigidbody>().velocity *= throwSpeedMultiplier;
+        // Debug.Log($" now the speed is {rigidbody.velocity}");
+        //
+
+
+
+
+        Ball ballComp =  ball.GetComponent<Ball>();
+
+        ballComp.SetThrown(team);
+       
+
+        levelManager.AddThrow(ball, this.gameObject);
+    }
+
+    public void BallGrab(SpatialHand hand, SpatialGrabbable grabbable)
+    {
+        ball = grabbable.gameObject;
+
+        print(ball.name + " grabbed");
+        
+        Ball ballComp = ball.GetComponent<Ball>();
+
+        ballComp.grounded = false;                         
+
+        if (ballComp.ThrownByOpp(team))
+        {
+
+
+            //playCatch();
+
+            //  playerScript.TriggerCatchFX();
+
+            levelManager.ClearContacts(ball);
+            // levelManager.AddCatch(this.gameObject, parent);
+            levelManager.LastThrowerOut(ball);
+            // levelManager.GetAnotherPlayer(this.gameObject.GetComponentInParent<Player>().team);
+            levelManager.RemoveHit(ball);
+            //  levelManager.CatchDisplay(playerScript.color, playerConfigObject.transform.position, (Vector3.Magnitude(rigidbody.velocity) + Vector3.Magnitude(velocityCaught)) / 2f);
+            ballComp.DeactivateThrow();
+
+            /*
+            float hitPauseDuration = Mathf.Clamp(velocityCaught.magnitude / 100f, 0, 3f);
+            float hitPausePreDelay = .36f;
+
+            DelayPause(hitPauseDuration, hitPausePreDelay);
+            */
+
+            print("~!Caught!~");
+        }
+    }
 
 
     private void enableController()

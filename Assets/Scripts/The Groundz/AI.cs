@@ -812,11 +812,11 @@ public class AI : MonoBehaviour {
 
                             if (playerScript.team == 1)
                             {
-                                ball.GetComponent<Ball>().SetThrown(gameObject.transform.parent.gameObject, 1);
+                                ball.GetComponent<Ball>().SetThrown(1);
                             }
                             if (playerScript.team == 2)
                             {
-                                ball.GetComponent<Ball>().SetThrown(gameObject.transform.parent.gameObject, 2);
+                                ball.GetComponent<Ball>().SetThrown( 2);
                             }
                             if (animator)
                             {

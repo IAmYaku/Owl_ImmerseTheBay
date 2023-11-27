@@ -89,7 +89,35 @@ public class PlayerConfiguration : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        /*
+      if (levelManager.isPlaying)
+      {
+
+          if (hasJoystick)
+          {
+              staminaCool = (stamina - controller3D.staminaCool);
+              staminaSR.material.SetFloat("_Rotation", staminaCool / 300f);
+              staminaBarObject.GetComponent<Slider>().value = staminaCool;
+              powerCool = (power - controller3D.superCoolDown);
+              powerSR.material.SetFloat("_Rotation", powerCool / 60f);
+              powerBarObject.GetComponent<Slider>().value = powerCool;
+          }
+          if (hasAI)
+          {
+              staminaCool = (int)(stamina - aiScript.staminaCool);
+              staminaBarObject.GetComponent<Slider>().value = staminaCool;
+              powerCool = (int)(power - aiScript.superCoolDown);
+              powerBarObject.GetComponent<Slider>().value = powerCool;
+          }          
+      }
+
+      if (isDeRendering)
+      {
+          drC_tF = Time.realtimeSinceStartup;
+          float t = drC_tF - drC_t0;
+          DeRender(t);
+      }
+      */
     }
 
     internal void SwitchToWinAnimation()
@@ -174,40 +202,6 @@ public class PlayerConfiguration : MonoBehaviour
         }   
     }
 
-    private void SlowDownPlayer(float delayTime, float stallTime )
-    {
-       if (player.hasAI)
-        {
-            ai.SlowDown(delayTime, stallTime);
-        }
-       else
-        {
-          //  controller3D.SlowDownByVelocity(delayTime, stallTime);
-        }
-    }
-
-    private void CorrectPosition()
-    {
-        float correctThresh = 1.0f;
-        float velMag = rigidbody.velocity.magnitude;
-        if (velMag > correctThresh && ballHit)
-        {
-            Vector3 diff = (transform.position - ballHit.transform.position) * pushVal * (velMag / 100f);
-            rigidbody.velocity = Vector3.zero;
-            Vector3 nuPos = new Vector3(transform.position.x + diff.x, transform.position.y - .025f, transform.position.z + diff.z);
-            rigidbody.MovePosition(nuPos);              // ?? why not Addforce?
-        }
-    }
-
-    private void CorrectPosition(GameObject collisionObject, float correctionValue)
-    {
-        float velMag = rigidbody.velocity.magnitude;
-
-            Vector3 diff = (transform.position - collisionObject.transform.position) * pushVal * (velMag / 100f) * correctionValue;
-            rigidbody.velocity = Vector3.zero;
-            Vector3 nuPos = new Vector3(transform.position.x + diff.x, transform.position.y , transform.position.z + diff.z);
-            rigidbody.MovePosition(nuPos);              // ?? why not Addforce?
-    }
 
     private void OnCollisionExit(Collision collision)
     {
@@ -234,14 +228,10 @@ public class PlayerConfiguration : MonoBehaviour
 
     }
 
-
     private void DoHitPause()
     {
         levelManager.HitPause();
     }
-
-
-
 
     public void DisablePlayer()
     {
