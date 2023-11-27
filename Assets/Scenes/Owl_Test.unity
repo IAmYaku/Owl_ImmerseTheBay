@@ -1401,6 +1401,10 @@ PrefabInstance:
       value: 1b82161b-157b-4cca-bd1c-a033b1d152b6
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnGrabEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 361114916}
@@ -1417,6 +1421,22 @@ PrefabInstance:
       value: BallReleased
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 361114916}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Highlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnGrabEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Ball, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -1425,11 +1445,19 @@ PrefabInstance:
       value: Ball, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Ball, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnGrabEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnReleaseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -7598,11 +7626,19 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: stretchRArmDesktop.m_Action.m_Name
+      value: Stretch R Arm Desktop
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
       propertyPath: squatDesktop.m_Action.m_ExpectedControlType
       value: Axis
       objectReference: {fileID: 0}
     - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
       propertyPath: squatDesktop.m_Action.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: stretchRArmDesktop.m_Action.m_SingletonActionBindings.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
@@ -7618,8 +7654,20 @@ PrefabInstance:
       value: Squat Desktop
       objectReference: {fileID: 0}
     - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: stretchRArmDesktop.m_Action.m_SingletonActionBindings.Array.data[0].m_Id
+      value: b9f5e672-5d33-482e-91e7-9ab1b8bb992d
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
       propertyPath: squatDesktop.m_Action.m_SingletonActionBindings.Array.data[0].m_Processors
       value: Normalize(min=-1,max=1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: stretchRArmDesktop.m_Action.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Mouse>/scroll/y
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749485335300527954, guid: 60d7a93c17943204388265df9708976f, type: 3}
+      propertyPath: stretchRArmDesktop.m_Action.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Stretch R Arm Desktop
       objectReference: {fileID: 0}
     - target: {fileID: 2749485335630971839, guid: 60d7a93c17943204388265df9708976f, type: 3}
       propertyPath: xrRig
@@ -30939,6 +30987,10 @@ PrefabInstance:
       value: 65041b17-bf76-4f2f-bfdc-4583a6e3cd12
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnGrabEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1169234861}
@@ -30955,6 +31007,22 @@ PrefabInstance:
       value: BallReleased
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1169234861}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Highlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnGrabEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Ball, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -30963,11 +31031,19 @@ PrefabInstance:
       value: Ball, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Ball, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnGrabEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnReleaseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -31260,6 +31336,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1158541878}
   m_Mesh: {fileID: -2133663015148311502, guid: 0d5c5034e517ae743b82c8f2d66e0d21, type: 3}
+--- !u!114 &1158612389 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4016950862279706190, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+  m_PrefabInstance: {fileID: 8882260673554884797}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f9065a452ec6443293ffda011a82934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1161224046
 GameObject:
   m_ObjectHideFlags: 0
@@ -42177,6 +42264,10 @@ PrefabInstance:
       value: 454458a6-856e-4249-b674-c04f3244faea
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnGrabEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 726521905}
@@ -42193,6 +42284,22 @@ PrefabInstance:
       value: BallReleased
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 726521905}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Highlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnGrabEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Ball, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -42201,11 +42308,19 @@ PrefabInstance:
       value: Ball, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Ball, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnGrabEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: OnReleaseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -60470,6 +60585,34 @@ PrefabInstance:
     - target: {fileID: 6556662526629242117, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
       propertyPath: guid
       value: 56196b2d-96ef-450b-8d97-80801483e7ad
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1158612389}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Highlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Ball, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548380091700527226, guid: 539eea4340404fe448fb526840c1f44b, type: 3}
+      propertyPath: OnFirstHighlightEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

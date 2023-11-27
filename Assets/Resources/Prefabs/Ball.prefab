@@ -267,9 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9065a452ec6443293ffda011a82934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultSprite: {fileID: 0}
   levelManager: {fileID: 0}
-  throwSpeedMultiplier: 5
   BallAudioSource: {fileID: 0}
   hit: {fileID: 0}
   bounce: {fileID: 0}
