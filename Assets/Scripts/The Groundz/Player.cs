@@ -497,50 +497,6 @@ public class Player : MonoBehaviour
             }
         }
 
-    public void DisablePlayer()
-    {
-        this.gameObject.SetActive(false);
-
-        /*
-        isOut = true;
-       
-        if (hasJoystick)
-        {
-            if (controller3D.ballGrabbed)
-            {
-                controller3D.DropBall();
-            }
-
-            controller3D.isKnockedOut = false;
-            controller3D.playerConfigObject.GetComponent<PlayerConfiguration>().ballContact = false;
-            hitObject.SetActive(false);
-            playerAura.gameObject.SetActive(false);
-
-        }
-
-        else
-        {
-            if (aiScript.enabled)
-            {
-                if (aiScript.ballGrabbed)
-                {
-                    aiScript.DropBall();
-                }
-                aiScript.isKnockedOut = false;
-                aiScript.playerConfigObject.GetComponent<PlayerConfiguration>().ballContact = false;
-                aiScript.enabled = false;
-                hitObject.SetActive(false);
-
-                NavMeshAgent navMeshAgent = playerConfigObject.GetComponent<NavMeshAgent>();
-                navMeshAgent.enabled = false;
-
-            }
-        }
-
-        DeRender();
-        */
-    }
-
     private void enableController()
     {
         controller3DObject.SetActive(true);
