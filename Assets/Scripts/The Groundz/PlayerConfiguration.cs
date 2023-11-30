@@ -9,7 +9,11 @@ public class PlayerConfiguration : MonoBehaviour
     LevelManager levelManager;
     GameObject playerAura;
     Player player;
+<<<<<<< Updated upstream
     Controller3D controller3D;
+=======
+    public CharacterController controller;
+>>>>>>> Stashed changes
     AI ai;
 
     static int healthStock = 3;    // Set from gameRule    
@@ -17,7 +21,6 @@ public class PlayerConfiguration : MonoBehaviour
     
     public Animator animator;
     public AudioSource audioSource;
-    public SpriteRenderer spriteRenderer;
     public Rigidbody rigidbody;
     public SphereCollider headCollider;   // extra points +?, sfx, vfx, etc
     public CapsuleCollider bodyCollider;

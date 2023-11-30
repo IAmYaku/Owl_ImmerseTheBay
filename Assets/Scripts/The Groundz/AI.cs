@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static Foundry.Player;
+using static Fusion.NetworkCharacterController;
 
 public class AI : MonoBehaviour {
 
@@ -215,6 +217,11 @@ public class AI : MonoBehaviour {
         transform = gameObject.transform;
 
         playerConfigObject = playerScript.playerConfigObject;
+<<<<<<< Updated upstream
+=======
+        controller = playerConfigObject.controller;
+
+>>>>>>> Stashed changes
         navMeshAgent = playerConfigObject.GetComponent<NavMeshAgent>();
         animator = playerConfigObject.GetComponent<Animator>();
         spriteRenderer = playerConfigObject.GetComponent<SpriteRenderer>();
@@ -278,8 +285,16 @@ public class AI : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+<<<<<<< Updated upstream
 
+=======
+       
+>>>>>>> Stashed changes
         if (levelManager.isPlaying) {
+            // controller.Move(movement * deltaTime + Vector3.down * movementSettings.downforce);
+            // virtualVelocity.Value = movement;
+            /*
+
             if (navMeshAgent.isOnNavMesh )
             {
                 //     print(" IsOnNAvMesh" );
@@ -319,15 +334,22 @@ public class AI : MonoBehaviour {
                 print(" !OnNAvMesh");
             }
 
+             */
+
         }
+
         else
         {
                                                                                                                                                                                                                                                             
-             EndAgentNavigation();                          // place onStandby
+          //   EndAgentNavigation();                          // place onStandby
         }
 
+<<<<<<< Updated upstream
         playerConfigObject.transform.LookAt(Camera.main.transform.position, Vector3.up);
         playerConfigObject.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0f, transform.localEulerAngles.z);     // Stay 2D for me please lol
+=======
+       
+>>>>>>> Stashed changes
     }
 
     internal void SetKnockedOut(float magnitude)
