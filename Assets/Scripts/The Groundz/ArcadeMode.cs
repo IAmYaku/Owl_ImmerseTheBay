@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ArcadeMode : MonoBehaviour
 {
+    /*
     int level;
     LevelManager lm;
     // scenes visited
@@ -155,5 +156,5 @@ public class ArcadeMode : MonoBehaviour
     {
         currentOppName = oppName;
     }
-
+    */
 }

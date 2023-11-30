@@ -7,6 +7,7 @@ using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using Foundry.Networking;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,9 +23,23 @@ public class GameManager : MonoBehaviour
 
     public static int ageThresh;
 
-    public PlayerInputManager playerInputManager;
+    public NetworkManager networkManager;
+
+    public GameObject foundryPersistent;
 
     public GameObject audioManager;
+
+    private void Awake()
+    {
+       // if (GlobalConfiguration.Instance.GetIsAtStage())
+        {
+            levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+
+            networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        }
+
+
+    }
 
 
 }

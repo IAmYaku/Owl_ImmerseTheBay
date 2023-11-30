@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Player Sprite
   - SuperBall
   - FxTemporaire
   - Ball
@@ -12,8 +11,8 @@ TagManager:
   - Playing Level
   - Wall
   - Power Ball
-  - ball
   - PlayerCollider
+  - Networked Player
   layers:
   - Default
   - TransparentFX

@@ -45,6 +45,7 @@ public class EndGameMenuScript : MonoBehaviour {
 
     private bool IsPauseInput()
     {
+        /*
         foreach (GameObject player in players)
         {
             if (player.GetComponent<Player>().hasJoystick)
@@ -55,6 +56,8 @@ public class EndGameMenuScript : MonoBehaviour {
                 }
             }
         }
+        return false;
+        */
         return false;
     }
 

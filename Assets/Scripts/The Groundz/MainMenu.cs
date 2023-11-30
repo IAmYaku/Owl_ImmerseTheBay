@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour {
 
     private void Start()
     {
-        GlobalConfiguration.Instance.GetJoysticks();
+       // GlobalConfiguration.Instance.GetJoysticks();
     }
 
 
