@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f107314012335664f95da2b23e68d72d, type: 3}
   m_Name: FusionModuleConfig
   m_EditorClassIdentifier: 
-  EnabledServices:
-  - AssemblyQualifiedName: Foundry.Networking.INetworkProvider, Foundry.Core, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  EnabledServices: []
