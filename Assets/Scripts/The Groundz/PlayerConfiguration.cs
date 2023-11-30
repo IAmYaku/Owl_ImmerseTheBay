@@ -108,6 +108,10 @@ public class PlayerConfiguration : MonoBehaviour
                 if (collision.gameObject.tag == "Ball")
                 {
                     ballHit = collision.gameObject;
+<<<<<<< Updated upstream
+=======
+                   // print("ballHit = " + ballHit);
+>>>>>>> Stashed changes
 
                     if (ballHit.GetComponent<Ball>().CheckPlayerHit(player.team))                                                                           // make more module
                     {
@@ -278,8 +282,127 @@ public class PlayerConfiguration : MonoBehaviour
         levelManager.HitPause();
     }
 
+<<<<<<< Updated upstream
     internal void SetOutAnimation(bool v)
     {
         animator.SetBool("isOut", v);
     }
+=======
+
+
+    public void DeRender()
+    {
+        //playerConfigObject.GetComponent<PlayerConfiguration>().SetOutAnimation(true);
+        isDeRendering = true;
+        dR_Cool = 1f;                                       // careful here, things mess up
+        drC_t0 = Time.realtimeSinceStartup;
+       // GetComponent<CapsuleCollider>().enabled = false;
+        //GetComponent<SphereCollider>().enabled = false;
+        //GetComponent<Rigidbody>().isKinematic = true;
+
+    }
+
+    internal void playFootsteps()
+    {
+        if (!audioSource.isPlaying)
+        {
+            audioSource.volume = .85f;
+            audioSource.clip = footsteps;
+            audioSource.Play();
+        }
+
+    }
+
+    private AudioClip GetThrowSound()
+    {
+        /*
+                if (throwSounds.Length > 0)
+                {
+                    return throwSounds[0];
+                }
+                else
+                {
+                    return null;
+                }
+        */
+        return null;
+    }
+
+
+    internal void PlayOutSound()
+    {
+        /*
+        playerAudioSource.clip = outSound;
+        playerAudioSource.pitch += UnityEngine.Random.Range(-3f, 3f);
+        playerAudioSource.volume = .25f;
+        playerAudioSource.Play();
+
+        NormalAudioSource();
+        */
+    }
+
+    internal void PlayDodgeSound()
+    {
+        /*
+
+        playerAudioSource.clip = dodgeSound;
+        playerAudioSource.pitch += UnityEngine.Random.Range(1f, 1.5f);
+        playerAudioSource.volume = .85f;
+        playerAudioSource.Play();
+
+        NormalAudioSource();
+        */
+
+    }
+    internal void playThrowSound()
+    {
+        /*
+        playerAudioSource.volume = 1f;
+        playerAudioSource.pitch += UnityEngine.Random.Range(1f, 1.5f);
+        playerAudioSource.clip = GetThrowSound();
+        playerAudioSource.Play();
+
+        NormalAudioSource();
+        */
+    }
+
+    private void NormalAudioSource()
+    {
+        /*
+        playerAudioSource.pitch = 1;
+        playerAudioSource.volume = .5f;
+        */
+    }
+
+
+
+    internal void SetHitFX(bool x)
+    {
+        hitObject.SetActive(x);
+    }
+
+    internal void TriggerCatchFX()
+    {
+        catchObject.SetActive(true);
+        Invoke("DisableCatchFX", 2f);
+    }
+
+    internal void DisableCatchFX()
+    {
+        catchObject.SetActive(false);
+
+    }
+
+    internal void TriggerWinFX()
+    {
+        winObject.SetActive(true);
+        Invoke("DisableWinFX", 2f);
+    }
+    internal void DisableWinFX()
+    {
+        winObject.SetActive(false);
+
+    }
+
+>>>>>>> Stashed changes
 }

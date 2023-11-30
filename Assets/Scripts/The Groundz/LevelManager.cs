@@ -180,7 +180,6 @@ public class LevelManager : MonoBehaviour
             if (!GameOver())
             {
                 Referee();
-              //   UpdateDamMeter();
 
             }
 
@@ -758,7 +757,11 @@ public class LevelManager : MonoBehaviour
         }
 
         player.GetComponent<Player>().DisablePlayer();
+<<<<<<< Updated upstream
         player.GetComponent<Player>().PlayOutSound();
+=======
+      //  player.GetComponent<Player>().PlayOutSound();
+>>>>>>> Stashed changes
 
 
 
