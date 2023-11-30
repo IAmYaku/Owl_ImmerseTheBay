@@ -11,12 +11,9 @@ public class Ball : MonoBehaviour {
 
     Vector3 size = new Vector3(1.25f, 1.25f, 1.25f);
 
-    public Sprite defaultSprite;
 
 	public LevelManager levelManager;
 
-    [Header("Player Settings")]
-    public float throwSpeedMultiplier =5f;
     [Space(5)]
 
     [Header("Audio & Material Settings")]
@@ -245,6 +242,7 @@ public class Ball : MonoBehaviour {
 
     private void Check4PlayerProx()
     {
+        /*
         isInPickUpRange = false;
 
         foreach (GameObject player in GlobalConfiguration.Instance.GetPlayers())
@@ -264,6 +262,7 @@ public class Ball : MonoBehaviour {
         {
             PickUpDeactivate();
         }
+        */
     }
 
     void OnCollisionEnter(Collision collision)
@@ -590,7 +589,7 @@ public class Ball : MonoBehaviour {
 
 
 		isSupering = false;
-        GetComponent<SpriteRenderer>().sprite = defaultSprite;
+        //GetComponent<SpriteRenderer>().sprite = defaultSprite;
 		GetComponent<Rigidbody> ().mass = initMass;  //*arbitrary nums
 	//	GetComponent<PerceptionScaler> ().enabled = true;
 		GetComponent<SphereCollider> ().material = regular;
@@ -599,7 +598,7 @@ public class Ball : MonoBehaviour {
 
 	}
 
-    internal void SetThrown(GameObject parent, int team)
+    internal void SetThrown(int team)
     {
         if  (team == 1)
         {
@@ -715,58 +714,22 @@ public class Ball : MonoBehaviour {
     }
 
 
-
-    public void BallGrab()
-    {
-        Player player = GetNearestPlayer();
-
-        grounded = false;                         //methodize
-        grabbed = true;
-
-        if (ThrownByOpp(this.gameObject, 2) || ThrownByOpp(this.gameObject, 1))
-        {
-     
-
-           //playCatch();
-
-          //  playerScript.TriggerCatchFX();
-
-            levelManager.ClearContacts(this.gameObject);
-           // levelManager.AddCatch(this.gameObject, parent);
-            levelManager.LastThrowerOut(this.gameObject);
-           // levelManager.GetAnotherPlayer(this.gameObject.GetComponentInParent<Player>().team);
-            levelManager.RemoveHit(this.gameObject);
-          //  levelManager.CatchDisplay(playerScript.color, playerConfigObject.transform.position, (Vector3.Magnitude(rigidbody.velocity) + Vector3.Magnitude(velocityCaught)) / 2f);
-            DeactivateThrow();
-
-            /*
-            float hitPauseDuration = Mathf.Clamp(velocityCaught.magnitude / 100f, 0, 3f);
-            float hitPausePreDelay = .36f;
-
-            DelayPause(hitPauseDuration, hitPausePreDelay);
-            */
-
-            print("~!Caught!~");
-        }
-    }
-
-
-    private bool ThrownByOpp(GameObject ball, int team)
+    public bool ThrownByOpp(int team)
     {
         if (team == 2)
         {
-            if (thrownBy1 && gameObject.GetComponentInParent<Player>().team == 2)
+            if (thrownBy1)
             {
-                thrownBy1 = false;
+               
                 return true;
             }
 
         }
         if (team == 1)
         {
-            if (thrownBy2 && gameObject.GetComponentInParent<Player>().team == 1)
+            if (thrownBy2)
             {
-                ball.GetComponent<Ball>().thrownBy2 = false;
+              
                 return true;
             }
 
@@ -775,29 +738,7 @@ public class Ball : MonoBehaviour {
     }
 
 
-    public void BallReleased()
-    {
-        // Alex code to increase ball speed when thrown
-        // Debug.Log($" speed on release is {rigidbody.velocity}");
-        rigidbody.velocity = rigidbody.velocity * throwSpeedMultiplier;
-        // Debug.Log($" now the speed is {rigidbody.velocity}");
-        //
 
-
-        Player playerScript = GetNearestPlayer();
-
-        if (playerScript.team == 1)
-        {
-         SetThrown(playerScript.gameObject, 1);
-        }
-
-        if (playerScript.team == 2)
-        {
-      SetThrown(playerScript.gameObject, 2);
-        }
-
-        levelManager.AddThrow(this.gameObject, playerScript.gameObject);
-    }
 
 
     public Player GetNearestPlayer()
@@ -825,9 +766,12 @@ public class Ball : MonoBehaviour {
         return nearestPlayer;
     }
 
+    public void Highlight()
+    {
+
+     //   print("Ball Highlight");
+    }
+
 }
         
    
-
-
-

@@ -2,6 +2,7 @@
   "dependencies": {
     "com.cyberhub.foundry.core": "https://github.com/FoundryXR/FoundryCore.git?path=package",
     "com.cyberhub.foundry.networking.fusion": "https://github.com/FoundryXR/FusionNetworkProvider.git?path=package",
+    "com.unity.ai.navigation": "1.1.5",
     "com.unity.collab-proxy": "2.2.0",
     "com.unity.feature.development": "1.0.1",
     "com.unity.feature.vr": "1.0.0",

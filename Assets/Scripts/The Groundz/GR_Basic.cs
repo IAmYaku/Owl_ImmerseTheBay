@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GR_Basic : GameRule
 {
+    /*
     LevelManager levelManager;
 
     string gameMode;
@@ -246,8 +247,8 @@ public class GR_Basic : GameRule
         }
         return false;
     }
-
-    */
+    //
+    
 
     internal void ClearContacts(GameObject ball)
     {
@@ -522,11 +523,11 @@ public class GR_Basic : GameRule
                     {
                         if (GlobalConfiguration.Instance.GetDeviceCount() >= 1)
                         {
-                            other.GetComponent<Player>().enableController(joystickNumber, GlobalConfiguration.Instance.GetJoystickAt(joystickNumber - 1));
+                           // other.GetComponent<Player>().enableController(joystickNumber, GlobalConfiguration.Instance.GetJoystickAt(joystickNumber - 1));
                         }
                         else
                         {
-                            other.GetComponent<Player>().enableController(joystickNumber, "");
+                         //   other.GetComponent<Player>().enableController(joystickNumber, "");
                         }
 
                         other.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
@@ -546,7 +547,7 @@ public class GR_Basic : GameRule
                 {
                     if (other.GetComponent<Player>().hasAI && other.GetComponent<Player>().isOut == false)
                     {
-                        other.GetComponent<Player>().enableController(joystickNumber, GlobalConfiguration.Instance.GetJoystickAt(joystickNumber - 1));
+                       // other.GetComponent<Player>().enableController(joystickNumber, GlobalConfiguration.Instance.GetJoystickAt(joystickNumber - 1));
                        // Destroy(other.transform.GetChild(0).transform.GetChild(0).gameObject);
                      //   GameObject aura = Instantiate(player.transform.GetChild(0).transform.GetChild(0).gameObject, other.transform.GetChild(0));
                        // aura.SetActive(true);
@@ -561,5 +562,5 @@ public class GR_Basic : GameRule
             }
         }
     }
-
+    */
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Foundry.Networking;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,12 +22,19 @@ public class Stage : MonoBehaviour
 
     List<Vector3> ballSpawnPoints = new List<Vector3>();
 
+    [HideInInspector]
     public float farSideLine; // +z
+    [HideInInspector]
     public float nearSideLine; // -z
+    [HideInInspector]
     public float halfCourtLine; // +x , 0
+    [HideInInspector]
     public float baseLineLeft; //-x
+    [HideInInspector]
     public float baseLineRight; // +x
+    [HideInInspector]
     public float floor;  // -y
+    [HideInInspector]
     public float roof; // +y
 
     public GameObject BottomPlane;
@@ -36,6 +44,7 @@ public class Stage : MonoBehaviour
     public GameObject RightPlane;
     public GameObject TopPlane;
 
+    [HideInInspector]
     public GameObject[] walls = new GameObject[4];
 
     public GameObject halfCourtBox;
@@ -52,33 +61,46 @@ public class Stage : MonoBehaviour
         if (!gm)
         {
             gm = GlobalConfiguration.Instance.gameManager.GetComponent<GameManager>();
+            
 
         }
 
+        if (!lm)
+        {
+            lm  = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+            lm.SetStage(this);
+        }
+       
 
-        lm = gm.levelManager;
-       lm.SetStage(this);
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        GlobalConfiguration.Instance.SetIsAtScene(true, scene.buildIndex);
-
+        GlobalConfiguration.Instance.SetIsAtScene(true, scene.buildIndex, this);
+        InitBounds();
 
     }
 
-    void Start()
+    public void CheckStageStart()
     {
-         if (GlobalConfiguration.Instance.gameMode == GlobalConfiguration.GameMode.none)
+        if (GlobalConfiguration.Instance.gameMode == GlobalConfiguration.GameMode.none)
         {
+
             loadedFromStage = true;
-            GlobalConfiguration.Instance.LoadDefaultGame();
-           // 
+
+            gm.networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+
+            GameObject player1 = GetNetworkPlayer();
+
+            GlobalConfiguration.Instance.LoadDefaultGame(player1);
+
+            print("Stage Start");
         }
+    }
 
-       // InitBounds();
-       // lm.LoadLevel();
-        print("Stage Start");
 
+    GameObject GetNetworkPlayer() { 
+
+        return gm.networkManager.playerObject;
     }
 
     private void OnEnable()
@@ -153,7 +175,8 @@ public class Stage : MonoBehaviour
         {
             for (int i=0; i< playerCount; i++)
             {
-                Vector3 location = new Vector3(baseLineLeft * xDistMult, floor + yOffset, zOffset + i * zDistMult);
+                //Vector3 location = new Vector3(baseLineLeft * xDistMult, floor + yOffset, zOffset + i * zDistMult);
+                Vector3 location = new Vector3(-5 + i * 2f, 0f, 7f);
                 print("tm1 location  (" + i + ") = " + location);
                 tm1_spawnPoints.Add(location);
 
@@ -164,7 +187,8 @@ public class Stage : MonoBehaviour
         {
             for (int i = 0; i < playerCount; i++)
             {
-                Vector3 location = new Vector3(baseLineRight * xDistMult, floor + yOffset, zOffset + i * zDistMult);
+                // Vector3 location = new Vector3(baseLineRight * xDistMult, floor + yOffset, zOffset + i * zDistMult);
+                Vector3 location = new Vector3(-5 + i * 2f, 0f, -10f);
                 print("tm2 location  (" + i + ") = " + location);
                 tm2_spawnPoints.Add(location);
             }
@@ -215,10 +239,7 @@ public class Stage : MonoBehaviour
         walls[3] = RightPlane;
 
 
-        Bounds playingLevelBounds = playingLevelPlane.GetComponent<MeshCollider>().bounds;
-
-        farSideLine = BackPlane.transform.position.z;       // we overlap planes so this might not be 100 accurate
-        nearSideLine = FrontPlane.transform.position.z;
+        farSideLine = BackPlane.transform.position.z;     
         halfCourtLine = halfCourtBox.transform.position.x;
         baseLineLeft = LeftPlane.transform.position.x;
         baseLineRight = RightPlane.transform.position.x;

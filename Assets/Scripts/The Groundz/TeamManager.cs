@@ -91,141 +91,6 @@ public class TeamManager : MonoBehaviour
     }
 
 
-
-    internal List<GameObject> PopulateAI(int team, string charName)
-    {
-        List<GameObject> returnMe = new List<GameObject>();
-
-        int x = 1;            //  init for Arcade
-
-        for (int i = 0; i < x; i++)
-        {
-            GameObject pObject = GlobalConfiguration.Instance.InstantiateAIPrefab();
-            Player pScript = pObject.GetComponent<Player>();
-            pScript.team = team;
-            pScript.hasAI = true;
-
-            // pScript.enableAI();    // cant unlessAtScene
-
-            pScript.SetOnStandby(true);
-           // GlobalConfiguration.Instance.SetPlayerType(pObject, charName, GetCharCount(charName));
-
-            AddObject(pObject, false);      // gets unparented then reparented on global config level..
-
-            returnMe.Add(pObject);
-        }
-
-        return returnMe;
-    }
-
-
-    internal List<GameObject> PopulateAI(int team)
-    {
-        List<GameObject> returnMe = new List<GameObject>();
-
-        int x = initPlayerCount - (userCount + aiCount);            // what if we want to replace
-
-        for (int i = 0; i < x; i++)
-        {
-            GameObject pObject = GlobalConfiguration.Instance.InstantiateAIPrefab();
-            Player pScript = pObject.GetComponent<Player>();
-            pScript.team = team;
-            pScript.hasAI = true;
-
-            // pScript.enableAI();    // cant unlessAtScene
-
-            pScript.SetOnStandby(true);
-
-          //  GlobalConfiguration.Instance.SetPlayerType(pObject, GetOppPlayerType(), GetCharCount(GetOppPlayerType()));
-            AddObject(pObject, false);      // gets unparented then reparented on global config level..
-
-            returnMe.Add(pObject);
-        }
-
-        return returnMe;
-    }
-    internal List<GameObject> PopulateAIRevamp(int team,int count)
-    {
-        List<GameObject> returnMe = new List<GameObject>();
-        int x = count;
-        int maxTeamCount = GlobalConfiguration.Instance.maxTeamCount;
-
-        if (count + userCount > maxTeamCount)
-        {
-            x = Mathf.Clamp(maxTeamCount - userCount, 0, maxTeamCount);
-        }
-          // what if we want to replace
-
-        for (int i = 0; i < x; i++)
-        {
-            GameObject pObject = GlobalConfiguration.Instance.InstantiateAIPrefab();
-            Player pScript = pObject.GetComponent<Player>();
-            pScript.team = team;
-            pScript.hasAI = true;
-
-            // pScript.enableAI();    // cant unlessAtScene
-
-            pScript.SetOnStandby(true);
-
-           // GlobalConfiguration.Instance.SetPlayerType(pObject, GetOppPlayerType(), GetCharCount(GetOppPlayerType()));
-            AddObject(pObject, false);      // gets unparented then reparented on global config level..
-
-            returnMe.Add(pObject);
-        }
-
-        return returnMe;
-    }
-
-    public List<GameObject> CreateAI(int count)
-    {
-        List<GameObject> returnMe = new List<GameObject>();
-
-        for (int i = 0; i< count; i++)
-        {
-            GameObject pObject = GlobalConfiguration.Instance.InstantiateAIPrefab();
-            Player pScript = pObject.GetComponent<Player>();
-            pScript.team = number;
-            pScript.hasAI = true;
-
-           //  pScript.enableAI();   
-
-            pScript.SetOnStandby(true);
-
-          //  GlobalConfiguration.Instance.SetPlayerType(pObject, GetOppPlayerType(), GetCharCount(GetOppPlayerType()));
-            AddObject(pObject, false);      // gets unparented then reparented on global config level..
-
-            returnMe.Add(pObject);
-        }
-
-        return returnMe;
-    }
-
-    public List<GameObject> CreateAI(int count, string charName)
-    {
-        List<GameObject> returnMe = new List<GameObject>();
-
-        for (int i = 0; i < count; i++)
-        {
-            GameObject pObject = GlobalConfiguration.Instance.InstantiateAIPrefab();
-            Player pScript = pObject.GetComponent<Player>();
-            pScript.team = number;
-            pScript.hasAI = true;
-
-            //  pScript.enableAI();   
-
-            pScript.SetOnStandby(true);
-
-           // GlobalConfiguration.Instance.SetPlayerType(pObject, charName, GetCharCount(charName));
-
-            AddObject(pObject, false);      // gets unparented then reparented on global config level..
-          
-            returnMe.Add(pObject);
-        }
-
-        return returnMe;
-    }
-
-
     internal void SetInitAICount(int count)
     {
         aiCount = count;
@@ -249,8 +114,7 @@ public class TeamManager : MonoBehaviour
        // print("spawnPoints.Count " + spawnPoints.Count);
         for (int i = 0; i < playerCount; i++)
         {
-            players[i].transform.localPosition =Vector3.zero;
-            players[i].transform.GetChild(0).position = spawnPoints[i];
+            players[i].transform.position = spawnPoints[i];
             //NavMeshAgent.Warp(Vector3).
         }
     }
@@ -263,8 +127,7 @@ public class TeamManager : MonoBehaviour
         {
             foreach (GameObject pObject in players)
             {
-                SpriteRenderer pSR = pObject.GetComponent<Player>().playerConfigObject.GetComponent<SpriteRenderer>();     // filthy lol
-                pSR.flipX = false;
+                pObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
         }
 
@@ -272,8 +135,7 @@ public class TeamManager : MonoBehaviour
         {
             foreach (GameObject pObject in players)
             {
-                SpriteRenderer pSR = pObject.GetComponent<Player>().playerConfigObject.GetComponent<SpriteRenderer>();     // filthy lol
-                pSR.flipX = true;
+                pObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 
             }
         }
@@ -326,7 +188,7 @@ public class TeamManager : MonoBehaviour
 
         foreach (GameObject player in players)
         {
-            if (player.GetComponent<Player>().aiObject.GetComponent<AI>().addedAtStage)
+         //   if (player.GetComponent<Player>().aiObject.GetComponent<AI>().addedAtStage)
             {
                 toRemove.Add(player);
             }

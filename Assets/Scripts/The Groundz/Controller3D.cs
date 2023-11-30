@@ -7,7 +7,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class Controller3D : MonoBehaviour
 {
-
+    /*
 
     public GameObject parent;
     public Player playerScript;
@@ -308,9 +308,9 @@ public class Controller3D : MonoBehaviour
     #region Key Input Logic
     private void CheckKeyInput()
     {
-        int playerIndex = playerScript.GetJoystick().number;
+      //  int playerIndex = playerScript.GetJoystick().number;
 
-        if (playerIndex == -1)
+     //   if (playerIndex == -1)
         {
             CheckKeyMove();
             CheckKeyGrab();
@@ -950,9 +950,9 @@ public class Controller3D : MonoBehaviour
         else
         {
             // drop
-            int playerIndex = playerScript.GetJoystick().number;
+        //    int playerIndex = playerScript.GetJoystick().number;
 
-            if (ballGrabbed && playerIndex != -1 && catchReady)
+         //   if (ballGrabbed && playerIndex != -1 && catchReady)
             {
 
                 DropBall();
@@ -1452,9 +1452,9 @@ public class Controller3D : MonoBehaviour
 
                     playerScript.ToggleActivateDodge();
                     Invoke("SetDodgingF", 1);
+    // 
 
-                    */
-                }
+}
             }
         }
     }
@@ -1630,7 +1630,7 @@ public class Controller3D : MonoBehaviour
         {
             return false;
         }
-        */
+        //
         return false;
     }
 
@@ -2237,15 +2237,15 @@ public class Controller3D : MonoBehaviour
 
     private void TriggerKnockBack(Vector3 ballVelocity)
     {
-        /*
+        //
         rigidbody.AddExplosionForce(ballVelocity.magnitude, ballVelocity, ballVelocity.magnitude / 10);
         knockedOutTime = 3f;
         t_knock0 = Time.realtimeSinceStartup;
         isKnockedOut = true;
         // animator.SetTrigger("Knock Out");
         animator.SetTrigger("Head Hit");
-
-        */
+        //
+        
     }
 
     public bool InBounds()
@@ -2429,5 +2429,6 @@ public class Controller3D : MonoBehaviour
            // levelManager.PauseGame();
        
     }
+*/
 }
 
