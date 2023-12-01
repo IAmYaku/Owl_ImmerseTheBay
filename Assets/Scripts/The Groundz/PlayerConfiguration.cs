@@ -11,7 +11,6 @@ public class PlayerConfiguration : MonoBehaviour
     public GameObject playerAura;
     public GameObject aiObject;
     Player player;
-    //Controller3D controller3D;
     AI ai;
 
     GameObject hitObject;
@@ -22,7 +21,6 @@ public class PlayerConfiguration : MonoBehaviour
     public GameObject powerBarObject;
 
     public AudioSource audioSource;
-    public SpriteRenderer spriteRenderer;
     public Rigidbody rigidbody;
     public SphereCollider headCollider;   // extra points +?, sfx, vfx, etc
     public CapsuleCollider bodyCollider;

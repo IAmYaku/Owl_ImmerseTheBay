@@ -5661,7 +5661,6 @@ MonoBehaviour:
   staminaBarObject: {fileID: 0}
   powerBarObject: {fileID: 0}
   audioSource: {fileID: 0}
-  spriteRenderer: {fileID: 0}
   rigidbody: {fileID: 0}
   headCollider: {fileID: 0}
   bodyCollider: {fileID: 0}
