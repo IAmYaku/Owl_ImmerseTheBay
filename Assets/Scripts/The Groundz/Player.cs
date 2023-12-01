@@ -45,7 +45,6 @@ public class Player : MonoBehaviour
 
 
     private bool dodgeActivated;
-    private float fxSpeed = 1f;
 
 
     GameObject ball;
