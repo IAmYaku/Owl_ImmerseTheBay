@@ -316,7 +316,7 @@ public class AI : MonoBehaviour {
         float handFromBallDistance = Vector3.Distance(foundryPlayerScript.trackers.rightHand.position, ball.transform.position);
 
             print("AI handFromBallDistance = " + handFromBallDistance);
-        if (handFromBallDistance < 1f)
+        if (handFromBallDistance < .1f)
         {
             foundryPlayerScript.rightHand.Grab();
         }
