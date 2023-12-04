@@ -102,7 +102,7 @@ public class Idle : AIState {
             }
             else
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     ai.SetState(ai.throwBall_);
                 }
@@ -130,7 +130,7 @@ public class Idle : AIState {
             }
             else
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     ai.SetState(ai.throwBall_);
                 }
@@ -157,7 +157,7 @@ public class Idle : AIState {
             }
             else
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                    // WaitAndDoTask(1.0f, ai.throwBall_.GetName());
                     ai.SetState(ai.throwBall_);
@@ -186,7 +186,7 @@ public class Idle : AIState {
             }
             else
             {
-                if (ai.ballGrabbed) {
+                if (ai.playerScript.ballGrabbed) {
                     ai.SetState(ai.panic_);
                 }
                 else
@@ -215,7 +215,7 @@ public class Idle : AIState {
         Vector3 pos = ai.navMeshAgent.gameObject.transform.position;
         GameObject nearestBall = GetNearestBall(pos, gameManager);
 
-            if (ai.ballGrabbed)
+            if (ai.playerScript.ballGrabbed)
             {
                 ai.SetState(ai.throwBall_);
             }
@@ -238,7 +238,7 @@ public class Idle : AIState {
 
         if (randomInt < 1 && randomInt > 0)
         {
-            if (ai.ballGrabbed)
+            if (ai.playerScript.ballGrabbed)
             {
                 ai.SetState(ai.throwBall_);
             }
@@ -265,7 +265,7 @@ public class Idle : AIState {
 
     private void CheckFace()
     {
-        ai.FaceOpp();
+      //  ai.FaceOpp();
         
     }
 

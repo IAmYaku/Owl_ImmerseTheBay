@@ -131,7 +131,7 @@ public class ThrowBall : AIState
 
     private void AggressiveBehavior(GameManager manager, AI ai)
     {
-        if (ai.ballGrabbed)
+        if (ai.playerScript.ballGrabbed)
         {
             Action(manager, ai, 3, Vector3.zero);
         }
@@ -150,7 +150,7 @@ public class ThrowBall : AIState
 
         if (randomInt < 1 && randomInt > 0)
         {
-            if (ai.ballGrabbed)
+            if (ai.playerScript.ballGrabbed)
             {
                 Action(gameManager, ai, 2, Vector3.zero);
             }
@@ -193,7 +193,7 @@ public class ThrowBall : AIState
             completionPercentage = 0;
            // Debug.Log("AI Throwing");
 
-            if (ai.ballGrabbed == false)
+            if (ai.playerScript.ballGrabbed == false)
             {
                 inAction = false;
                // ai.SetNavVelocity(Vector3.zero);
@@ -219,19 +219,7 @@ public class ThrowBall : AIState
 
     private void FaceOpp()
     {
-        bool isFacingRight = !ai.spriteRenderer.flipX;
 
-       if (ai.playerScript.team == 1 && !isFacingRight)
-        {
-            ai.SpriteFlip();
-        }
-       else
-        {
-            if (ai.playerScript.team == 2 && isFacingRight)
-            {
-                ai.SpriteFlip();
-            }
-        }
     }
 
     private Vector3 GetNearestOpp(GameManager manager,AI _ai )

@@ -5656,19 +5656,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b70c52720654417b25fdd9b119f82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAura: {fileID: 0}
-  aiObject: {fileID: 0}
-  staminaBarObject: {fileID: 0}
-  powerBarObject: {fileID: 0}
+  foundryPlayerScript: {fileID: 5443963534869664011}
+  animator: {fileID: 0}
   audioSource: {fileID: 0}
   rigidbody: {fileID: 0}
   headCollider: {fileID: 0}
   bodyCollider: {fileID: 0}
-  catchSound: {fileID: 0}
-  throwSounds: []
-  dodgeSound: {fileID: 0}
-  outSound: {fileID: 0}
-  footsteps: {fileID: 0}
+  play: {fileID: 0}
+  win: {fileID: 0}
+  out_mat: {fileID: 0}
+  default_mat: {fileID: 0}
   ballContact: 0
 --- !u!1 &2426412737636318621
 GameObject:
@@ -7757,6 +7754,7 @@ MonoBehaviour:
   isOut: 0
   stamina: 0
   power: 0
+  ballGrabbed: 0
 --- !u!1 &8279761453518922694
 GameObject:
   m_ObjectHideFlags: 0

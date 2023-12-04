@@ -9,11 +9,9 @@ public class PlayerConfiguration : MonoBehaviour
     LevelManager levelManager;
     GameObject playerAura;
     Player player;
-<<<<<<< Updated upstream
-    Controller3D controller3D;
-=======
-    public CharacterController controller;
->>>>>>> Stashed changes
+
+    public Foundry.Player foundryPlayerScript;
+
     AI ai;
 
     static int healthStock = 3;    // Set from gameRule    
@@ -175,7 +173,7 @@ public class PlayerConfiguration : MonoBehaviour
         }
        else
         {
-            controller3D.SlowDownByVelocity(delayTime, stallTime);
+           // controller3D.SlowDownByVelocity(delayTime, stallTime);
         }
     }
 
@@ -218,7 +216,7 @@ public class PlayerConfiguration : MonoBehaviour
 
     private void TurnInCollisionFalse()
     {
-        controller3D.SetAccelerationRate(.85f);
+      //  controller3D.SetAccelerationRate(.85f);
       //  inBallCollision = false;
 
     }
@@ -258,7 +256,7 @@ public class PlayerConfiguration : MonoBehaviour
         }
         else
         {
-          controller3D.SetKnockedOut(knockBackVec.magnitude * knockBackTimeMult);
+         // controller3D.SetKnockedOut(knockBackVec.magnitude * knockBackTimeMult);
           //  rigidbody.velocity += knockBackVec;
         }
       

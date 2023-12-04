@@ -1014,7 +1014,7 @@ public class LevelManager : MonoBehaviour
             {
                 if (player.GetComponentInChildren<AI>())
                 {
-                    if (player.GetComponentInChildren<AI>().ballGrabbed)
+                    if (player.GetComponentInChildren<AI>().playerScript.ballGrabbed)
                     {
                         player.GetComponentInChildren<AI>().DropBall();
                     }
@@ -1260,7 +1260,7 @@ public class LevelManager : MonoBehaviour
 
             if (player.GetComponent<Player>().hasAI)
             {
-                if (player.GetComponentInChildren<AI>().ballGrabbed)
+                if (player.GetComponentInChildren<AI>().playerScript.ballGrabbed)
                 {
                     player.GetComponentInChildren<AI>().DropBall();
                 }
@@ -1269,7 +1269,7 @@ public class LevelManager : MonoBehaviour
                 player.GetComponentInChildren<NavMeshAgent>().enabled = true;
                 player.GetComponentInChildren<Rigidbody>().isKinematic = true;
                 //     player.GetComponentInChildren<AI>().animator.runtimeAnimatorController = player.GetComponentInChildren<AI>().play;  
-                player.GetComponentInChildren<AI>().FaceOpp();
+               // player.GetComponentInChildren<AI>().FaceOpp();
             }
             else
             {

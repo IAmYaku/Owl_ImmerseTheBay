@@ -100,7 +100,7 @@ public class Panic : AIState {
           //  Debug.Log("panickTime = " + panickTime);
             ai.isPanicking = true;
 
-            ai.FaceOpp();                                          // <-- this may not be working lol; 
+        //    ai.FaceOpp();                                          // <-- this may not be working lol; 
 
             aiLevel = ai.GetLevel();
 
@@ -127,7 +127,7 @@ public class Panic : AIState {
 
             ai.vertInput = Mathf.Lerp(ranVelVec, ai.vertInput, .0125f);
 
-            if (!ai.ballGrabbed && intensity < -15 )
+            if (!ai.playerScript.ballGrabbed && intensity < -15 )
                 {
                 if ( !rolledCatch)
                 {
@@ -194,7 +194,7 @@ public class Panic : AIState {
                 }
                 else
                 {
-                    if (!ai.ballGrabbed)
+                    if (!ai.playerScript.ballGrabbed)
                     {
                         ai.SetState(ai.getBall_);
                     }
@@ -213,7 +213,7 @@ public class Panic : AIState {
                 }
                 else
                 {
-                    if (!ai.ballGrabbed)
+                    if (!ai.playerScript.ballGrabbed)
                     {
                         ai.SetState(ai.getBall_);
                     }

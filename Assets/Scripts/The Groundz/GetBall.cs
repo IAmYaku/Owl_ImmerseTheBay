@@ -83,7 +83,7 @@ public class GetBall : AIState {
                     ai.action1Input = true;
 
 
-                    if (ai.ballGrabbed)
+                    if (ai.playerScript.ballGrabbed)
                     {
                         ballTarget.GetComponent<Ball>().isBeingPursued = false;
                         ballTarget = null;
@@ -165,7 +165,7 @@ public class GetBall : AIState {
                     ai.action1Input = true;
                    
 
-                    if (ai.ballGrabbed)
+                    if (ai.playerScript.ballGrabbed)
                     {
                     ballTarget.GetComponent<Ball>().isBeingPursued = false;
                         inAction = false;
@@ -247,7 +247,7 @@ public class GetBall : AIState {
             }
             else
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     ai.SetState(ai.throwBall_);
                 }
@@ -274,7 +274,7 @@ public class GetBall : AIState {
             }
             else
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     ai.SetState(ai.throwBall_);
                 }
@@ -299,7 +299,7 @@ public class GetBall : AIState {
 
             else
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     ai.SetState(ai.throwBall_);     // <--- Should try wait code here too
                 }
@@ -323,7 +323,7 @@ public class GetBall : AIState {
 
             else
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     ai.SetState(ai.retreat_);     // <--- Should try wait code here too
                 }
@@ -358,7 +358,7 @@ public class GetBall : AIState {
     {
         Vector3 pos = ai.navMeshAgent.gameObject.transform.position;
 
-        if (ai.ballGrabbed)
+        if (ai.playerScript.ballGrabbed)
         {
             ai.SetState(ai.throwBall_);
         }

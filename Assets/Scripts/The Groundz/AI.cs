@@ -10,11 +10,14 @@ public class AI : MonoBehaviour {
 
     public GameObject parent;
     public Player playerScript;
+    Foundry.Player foundryPlayerScript;
 
     private LevelManager levelManager;
     GameManager gameManager;
 
     public GameObject playerConfigObject;
+
+
 
     public NavMeshAgent navMeshAgent;
     public Transform target;
@@ -36,8 +39,7 @@ public class AI : MonoBehaviour {
     public GameObject ball;
     public GameObject ballHit;
 
-    private Animator animator;
-    public SpriteRenderer spriteRenderer;
+
     private Transform transform;
 	private Rigidbody rigidbody;
 	private Collider collider; //which?
@@ -120,7 +122,6 @@ public class AI : MonoBehaviour {
 
 	private Vector3 throwDirection;
 	//public bool ballContact;
-	public bool ballGrabbed = false;
 	public bool ballThrown;
     public bool ballCaught;
 
@@ -193,75 +194,24 @@ public class AI : MonoBehaviour {
 
     void Start () {
 
-        GameObject gameManagerObject = GameObject.Find("GameManager");
+       
 
-        if (gameManagerObject)
-        {
-            levelManager = gameManagerObject.GetComponent<LevelManager>();
-        }
+        gameManager = GlobalConfiguration.Instance.gameManager;
 
-        else
-        {
-            gameManagerObject = GameObject.Find("GameManager(Clone)");
-
-            if (gameManagerObject)
-            {
-                levelManager = gameManagerObject.GetComponent<LevelManager>();
-            }
-        }
-
-        levelManager = gameManagerObject.GetComponent<LevelManager>();
+        levelManager = GlobalConfiguration.Instance.gameManager.levelManager;
 
         playerScript = gameObject.GetComponentInParent<Player>();
-        parent = gameObject.transform.parent.gameObject;
-        transform = gameObject.transform;
 
-        playerConfigObject = playerScript.playerConfigObject;
-<<<<<<< Updated upstream
-=======
-        controller = playerConfigObject.controller;
+        foundryPlayerScript = playerConfigObject.GetComponent<PlayerConfiguration>().foundryPlayerScript;
 
->>>>>>> Stashed changes
         navMeshAgent = playerConfigObject.GetComponent<NavMeshAgent>();
-        animator = playerConfigObject.GetComponent<Animator>();
-        spriteRenderer = playerConfigObject.GetComponent<SpriteRenderer>();
+
         rigidbody = playerConfigObject.GetComponent<Rigidbody>();
-		collider = playerConfigObject.GetComponent<Collider> ();
-		sizeX = collider.bounds.max.x - collider.bounds.min.x;
-		sizeY = collider.bounds.max.y - collider.bounds.min.y;
-		sizeZ = collider.bounds.max.z - collider.bounds.min.z;
 
         team = playerScript.team;
         color = playerScript.color;
 
-
         /*
-        if (retreatPoint == null)
-        {
-           if(playerScript.number == 1)
-            {
-              retreatPoint =  GameObject.Find("P1 Retreat Point").transform;
-            }
-            if (playerScript.number == 2)
-            {
-                retreatPoint = GameObject.Find("P2 Retreat Point").transform;
-            }
-            if (playerScript.number == 3)
-            {
-                retreatPoint = GameObject.Find("P3 Retreat Point").transform;
-            }
-            if (playerScript.number == 4)
-            {
-                retreatPoint = GameObject.Find("P4 Retreat Point").transform;
-            }
-        }
-
-         */
-
-         gameManager = levelManager.gameObject.GetComponent<GameManager>();                        // todo
-        retreatPoint = parent.transform;  // or grab from lm 
-
-
         idle_.Start(gameManager, this);     // abstract classes don't inherit monobehaviours start
         getBall_.Start(gameManager, this);
         throwBall_.Start(gameManager, this);
@@ -269,30 +219,40 @@ public class AI : MonoBehaviour {
         retreat_.Start(gameManager, this);
         ready_.Start(gameManager, this);
 
-
-     //   navMeshAgent.enabled = true;
-
-       aiState = idle_;                    //   <-- $ Name me something initty 
-      //   aiState = ready_;
+        navMeshAgent.enabled = true;
+        aiState = idle_;                    
+        aiState = ready_;
+        */
     }
     
 
-    internal void SpriteFlip()
-    {
-        spriteRenderer.flipX = !spriteRenderer.flipX;
-    }
 
-
-    // Update is called once per frame
     void Update () {
-<<<<<<< Updated upstream
 
-=======
-       
->>>>>>> Stashed changes
         if (levelManager.isPlaying) {
-            // controller.Move(movement * deltaTime + Vector3.down * movementSettings.downforce);
-            // virtualVelocity.Value = movement;
+
+            if (!playerScript.ballGrabbed)
+            {
+
+                GameObject nearestBall = GetNearestBall();
+
+                Vector3 move = (nearestBall.transform.position - this.parent.transform.position).normalized;
+
+                foundryPlayerScript.Move(move, Time.deltaTime);
+
+                float reachThresh = .5f;
+                float ballDistance = Vector3.Distance(nearestBall.transform.position, this.parent.transform.position);
+
+                if (ballDistance <= reachThresh )
+                {
+                     GrabBall(nearestBall);
+                    
+                }
+
+
+            }
+            
+
             /*
 
             if (navMeshAgent.isOnNavMesh )
@@ -344,12 +304,184 @@ public class AI : MonoBehaviour {
           //   EndAgentNavigation();                          // place onStandby
         }
 
-<<<<<<< Updated upstream
-        playerConfigObject.transform.LookAt(Camera.main.transform.position, Vector3.up);
-        playerConfigObject.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0f, transform.localEulerAngles.z);     // Stay 2D for me please lol
-=======
+    }
+
+    private void GrabBall(GameObject ball) { 
+
+        foundryPlayerScript.trackers.rightHand.gameObject.SetActive(true);
+        foundryPlayerScript.trackers.rightHand.localPosition = Quaternion.Inverse(parent.transform.rotation) * (ball.transform.position - parent.transform.position);
+        foundryPlayerScript.trackers.rightHand.localRotation = Quaternion.Inverse(parent.transform.rotation) * ball.transform.rotation;
+
+
+        float handFromBallDistance = Vector3.Distance(foundryPlayerScript.trackers.rightHand.position, ball.transform.position);
+
+            print("AI handFromBallDistance = " + handFromBallDistance);
+        if (handFromBallDistance < 1f)
+        {
+            foundryPlayerScript.rightHand.Grab();
+        }
        
->>>>>>> Stashed changes
+    }
+    #region Move Logic
+    void MoveInput()
+    {
+
+
+        if (InBounds())
+        {
+
+            if (onGround && !isDodging)
+            {
+
+                CustomMoveInput();
+            }
+
+            float moveThresh = 2f;
+
+            if (navMeshAgent.velocity.magnitude > moveThresh)          //* arbitrary nums
+            {
+                if (!isDodging)
+                {
+
+                }
+            }
+
+            else
+            {
+
+
+            }
+        }
+
+
+        //handle Dodge/Jump Input
+        if ((jumpInput) && dodgeCool <= 0 && staminaCool < stamina)
+        {
+            if (InBounds())
+            {
+                //print ("Dodge!");
+                // TODO vary force on Input. I.e implement an actual jump
+                isDodging = true;
+                Vector3 dodgeForce = (new Vector3(0f, 0f, UnityEngine.Random.Range(-2.0f, 2.0f) * dodgeSpeed));
+
+                if (dodgeForce.magnitude < dodgeSpeed)
+                {
+                    dodgeForce.z = Mathf.Clamp(dodgeForce.z, Mathf.Sign(dodgeForce.z) * dodgeSpeed, Mathf.Sign(dodgeForce.z) * dodgeSpeed);
+                }
+
+                navMeshAgent.velocity += dodgeForce;
+
+                //print("dodgeForce = " + dodgeForce);
+                jumpInput = false;
+                dodgeCool = dodgeCoolTime;
+                staminaCool += dodgeStaminaCost;
+
+
+
+            }
+        }
+        else
+        {
+
+            if (dodgeCool > 0)
+            {
+
+                dodgeCool -= Time.deltaTime;
+
+                if (dodgeCool > dodgeCoolTime / 2f)
+                {
+                    navMeshAgent.velocity /= 1.025f;
+                }
+                else
+                {
+                    if (isDodging)
+                    {
+                        isDodging = false;
+                    }
+
+                }
+
+
+
+            }
+        }
+
+        if (navMeshAgent.velocity.x > 3.0f)    // *arbitray nums
+        {
+            isFacingRight = true;
+
+
+            throwDirection.x = 1;              // hmm? lol
+        }
+
+        if (navMeshAgent.velocity.x < -3.0f)
+        {
+            isFacingRight = false;
+
+            throwDirection.x = -1;
+        }
+
+        if (navMeshAgent.velocity.z > 0.0f)
+        {
+            throwDirection.z = 1;
+        }
+        if (navMeshAgent.velocity.z < 0)
+        {
+            throwDirection.z = -1;
+        }
+    }
+
+    private void CustomMoveInput()
+    {
+        move.x = horzInput;
+        move.z = vertInput;
+
+        if (Vector3.SqrMagnitude(move) > 0.0f)    // aka if we want to overide navMesh
+        {
+            Vector3 agentVelocity = new Vector3(move.x * xSpeed, 0.0f, move.z * zSpeed);
+            SetNavVelocity(agentVelocity);
+            //  print("CustomMove Debug");
+            //  print("agentVelocity = " + agentVelocity);
+        }
+    }
+
+    internal void SetNavVelocity(Vector3 vector3)
+    {
+
+        if (!isSlowingDown)
+        {
+            // navMeshAgent.velocity = Vector3.Lerp(navMeshAgent.velocity, vector3, accelerationRate);
+            navMeshAgent.velocity = vector3;
+            // print("vector3 " + vector3);
+            // print(" navMeshAgent.velocity = " + navMeshAgent.velocity);
+            //  print("vector3 = " + vector3);
+            //  print("navMeshAgent.velocity = " + navMeshAgent.velocity);
+
+        }
+        else
+        {
+            // print("slowing down");
+            navMeshAgent.velocity = Vector3.Lerp(navMeshAgent.velocity, Vector3.zero, accelerationRate);
+
+        }
+
+
+    }
+
+
+    public void SlowDown(float decelerationRate, float stallTime)
+    {
+        isSlowingDown = true;
+        accelerationRate = decelerationRate;
+
+        Invoke("NormalNavSpeed", stallTime);
+    }
+
+    void NormalNavSpeed()
+    {
+        isSlowingDown = false;
+        accelerationRate = .85f;
+        navMeshAgent.speed = navSpeed;
     }
 
     internal void SetKnockedOut(float magnitude)
@@ -393,201 +525,9 @@ public class AI : MonoBehaviour {
         }
     }
 
-    void MoveInput(){
+    #endregion
 
 
-        if (InBounds())
-        {
-
-                if (onGround && !isDodging)
-                {
-
-                    CustomMoveInput();      
-                }
-
-                float moveThresh = 2f;
-
-                if ( navMeshAgent.velocity.magnitude > moveThresh)          //* arbitrary nums
-                {
-                    if (!isDodging)
-                    {
-
-                        if (animator)
-                        {
-                            animator.SetFloat("Speed", Mathf.Clamp(navMeshAgent.velocity.magnitude / 20f, 1f, 2f)); // *arbitrary nums
-
-                            if (animator.GetBool("Running") == false)
-                            {
-                                animator.SetBool("Running", true);
-                            }
-                        }
-                    }
-                }
-
-                else
-                {
-
-                    if (animator)
-                    {
-
-                        if (animator.GetBool("Running") == true)
-                        {
-                            animator.SetBool("Running", false);
-                        }
-                        if (staminaCool > 0.0f)
-                        {
-                            staminaCool -= 1f; // deprecated
-                        }
-                    }
-                }
-        }
-
-
-		//handle Dodge/Jump Input
-		if ((jumpInput) && dodgeCool <= 0 && staminaCool < stamina) {
-			if (InBounds ()) 
-            {
-				//print ("Dodge!");
-				// TODO vary force on Input. I.e implement an actual jump
-				isDodging = true;
-                Vector3 dodgeForce = (new Vector3(0f, 0f,UnityEngine.Random.Range(-2.0f, 2.0f) * dodgeSpeed));
-
-                if (dodgeForce.magnitude < dodgeSpeed )
-                {
-                    dodgeForce.z = Mathf.Clamp(dodgeForce.z, Mathf.Sign(dodgeForce.z) * dodgeSpeed, Mathf.Sign(dodgeForce.z) * dodgeSpeed);
-                }
-
-                navMeshAgent.velocity += dodgeForce;
-
-               //print("dodgeForce = " + dodgeForce);
-                jumpInput = false;
-                dodgeCool = dodgeCoolTime;
-                staminaCool += dodgeStaminaCost;
-
-                if (animator)
-                {
-                    animator.SetTrigger("Dodge");
-                }
-
-                Invoke("ResetDodgeTrigger", .2f);
-
-            } 
-		}	else {
-           
-				if (dodgeCool > 0) {
-
-                dodgeCool -= Time.deltaTime;
-
-                if (dodgeCool > dodgeCoolTime/2f)
-                {
-                    navMeshAgent.velocity /= 1.025f;
-                }
-                else
-                {
-                    if (isDodging)
-                    {
-                        isDodging = false;
-                    }
-                   
-                }
-
-
-                 
-				}
-		}
-
-        if (navMeshAgent.velocity.x > 3.0f)    // *arbitray nums
-        {
-            isFacingRight = true;
-           // Pivot();
-            spriteRenderer.flipX = false;
-            throwDirection.x = 1;              // hmm? lol
-        }
-
-        if (navMeshAgent.velocity.x < -3.0f)
-        {
-            isFacingRight = false;
-          //  Pivot();
-            spriteRenderer.flipX = true;
-            throwDirection.x = -1;
-        }
-       
-        if (navMeshAgent.velocity.z > 0.0f)
-        {
-            throwDirection.z = 1;
-        }
-        if (navMeshAgent.velocity.z < 0)
-        {
-            throwDirection.z = -1;
-        }
-    }
-
-    private void Pivot()
-    {
-        //spriteRenderer.flipX = false;
-
-        if (animator)
-        {
-            animator.SetTrigger("Pivot");
-        }
-    }
-
-    private void CustomMoveInput()
-    {
-        move.x = horzInput;
-        move.z = vertInput;
-
-        if (Vector3.SqrMagnitude(move) > 0.0f)    // aka if we want to overide navMesh
-        {
-            Vector3 agentVelocity = new Vector3(move.x * xSpeed, 0.0f, move.z * zSpeed);
-            SetNavVelocity(agentVelocity);
-          //  print("CustomMove Debug");
-          //  print("agentVelocity = " + agentVelocity);
-        }
-    }
-
-    internal void SetNavVelocity(Vector3 vector3)
-    {
-
-        if (!isSlowingDown)
-        {
-           // navMeshAgent.velocity = Vector3.Lerp(navMeshAgent.velocity, vector3, accelerationRate);
-            navMeshAgent.velocity = vector3;
-           // print("vector3 " + vector3);
-           // print(" navMeshAgent.velocity = " + navMeshAgent.velocity);
-            //  print("vector3 = " + vector3);
-            //  print("navMeshAgent.velocity = " + navMeshAgent.velocity);
-
-        }
-        else
-        {
-           // print("slowing down");
-            navMeshAgent.velocity = Vector3.Lerp(navMeshAgent.velocity, Vector3.zero, accelerationRate);
-           
-        }
-
-        float runAnimThresh = 8f;
-        if (vector3.magnitude >=  runAnimThresh)
-        {
-            animator.SetBool("Running", true);
-        }
-    }
-
-    public void SlowDown(float decelerationRate, float stallTime)
-    {
-        isSlowingDown = true;
-        accelerationRate = decelerationRate;
-
-        Invoke("NormalNavSpeed", stallTime);
-    }
-
-    void NormalNavSpeed()
-    {
-        isSlowingDown = false;
-        accelerationRate = .85f;
-        navMeshAgent.speed = navSpeed;
-    }
-  
     void GrabInput() {
 
         // pick up /catch
@@ -599,7 +539,7 @@ public class AI : MonoBehaviour {
         {
          //   print("GrabInput check 0: stamina check");
 
-            if ((action1Input) && !ballGrabbed && catchReady)
+            if ((action1Input) && !playerScript.ballGrabbed && catchReady)
 
         {
             //    print("GrabInput check 1: actionInput && !ballGrabbed && catchReady");
@@ -620,7 +560,7 @@ public class AI : MonoBehaviour {
                             Vector3 velocityCaught = ball.GetComponent<Rigidbody>().velocity;
                             ball.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
 
-                            ballGrabbed = true;                                 // grabbed 
+                            playerScript.ballGrabbed = true;                                 // grabbed 
                             ball.GetComponent<Ball>().grounded = false;
                             ball.GetComponent<Ball>().grabbed = true;
                             ball.transform.GetChild(3).gameObject.SetActive(false);
@@ -634,17 +574,13 @@ public class AI : MonoBehaviour {
 
                             if (ThrownByOpp(ball, 2) || ThrownByOpp(ball, 1))                          // check catch
                             {
-                                if (animator)
-                                {
-                                    animator.ResetTrigger("Hit");
-                                    animator.SetTrigger("Catch");
-                                }
+       
 
                                 //ballContact = false;  // what if therre's multiple balls
                                 ballCaught = true;     // what if therre's multiple balls
                                 ResetBallCaught(.5f);
 
-                                playerScript.SetHitFX(false);
+                                //playerScript.SetHitFX(false);
                                 ball.GetComponent<Ball>().playCatch();
                                 levelManager.ClearContacts(ball);
                                 levelManager.AddCatch(ball, parent);
@@ -669,11 +605,7 @@ public class AI : MonoBehaviour {
                             {
                                 print("~PickUp~");
 
-                                if (animator)
-                                {
-                                    animator.SetTrigger("PickUp");
-                                    animator.ResetTrigger("PickUp");
-                                }
+        
                             }
 
                             action1Input = false;
@@ -689,7 +621,7 @@ public class AI : MonoBehaviour {
                         //if (!ball.GetComponent<Ball>().isSupering)                   
                         {
                             if (!isPanicking) {
-                                animator.SetTrigger("Ready");
+                               
                             }
                                 else
                             {
@@ -697,7 +629,7 @@ public class AI : MonoBehaviour {
                                 float prob = .5f / level;
                                 if (ran < prob)
                                 {
-                                    animator.SetTrigger("Ready");
+                                   
                                 }
                             }
   
@@ -732,8 +664,6 @@ public class AI : MonoBehaviour {
                 }
 
 
-                CheckHasBallAnim();
-
 
             }
 
@@ -746,7 +676,7 @@ public class AI : MonoBehaviour {
 
                 if (levelManager.IsInGameBounds(cockBackPos))
                 {
-                    if (ballGrabbed && (rTriggerInput) && ball && catchReady)           //should technically be throwReady
+                    if (playerScript.ballGrabbed && (rTriggerInput) && ball && catchReady)           //should technically be throwReady
                     {
 
                         if (!isCharging)
@@ -759,7 +689,7 @@ public class AI : MonoBehaviour {
                             //  accelerationRate = Mathf.Clamp(glide, 0.000001f, 1.0f);  //arbs
 
 
-                            animator.SetTrigger("Charge");
+                           
                         }
 
 
@@ -775,12 +705,12 @@ public class AI : MonoBehaviour {
 
                             if (playerScript.team == 1 && throwDirection.x == -1)                // orientate correctly
                             {
-                                spriteRenderer.flipX = !spriteRenderer.flipX;
+                              
                                 throwDirection.x = 1;
                             }
                             if (playerScript.team == 2 && throwDirection.x == 1)
                             {
-                                spriteRenderer.flipX = !spriteRenderer.flipX;
+                                
                                 throwDirection.x = -1;
                             }
 
@@ -808,41 +738,22 @@ public class AI : MonoBehaviour {
                             print("throwCharge = " + throwCharge);
 
 
-                            if (animator)
-                            {
-                                float throwMag = Vector3.Magnitude(throww);
-                                float throwSpeedThresh = 300f;
-
-                                float throwAnimSpeed = Mathf.Clamp(throwMag / throwSpeedThresh, 2f, 3f);
-
-                                animator.SetFloat("ThrowSpeed", throwAnimSpeed);
-
-                                animator.SetFloat("ThrowSpeed", throwAnimSpeed);
-                                animator.SetTrigger("Release");
-                            }
-
-
                             levelManager.AddThrow(ball, parent);
 
                             staminaCool += 5f;
 
-                            ballGrabbed = false;
+                            playerScript.ballGrabbed = false;
                             // Debug.Log("AI Standing Throw");
 
                             if (playerScript.team == 1)
                             {
-                                ball.GetComponent<Ball>().SetThrown(gameObject.transform.parent.gameObject, 1);
+                                ball.GetComponent<Ball>().SetThrown(1);
                             }
                             if (playerScript.team == 2)
                             {
-                                ball.GetComponent<Ball>().SetThrown(gameObject.transform.parent.gameObject, 2);
+                                ball.GetComponent<Ball>().SetThrown( 2);
                             }
-                            if (animator)
-                            {
-                                animator.SetBool("hasBall", false);
-                                Invoke("ResetThrowAnimations", .0125f);
 
-                            }
 
                             chargeVel = Vector3.zero;
                             throwCharge = 0;
@@ -860,7 +771,7 @@ public class AI : MonoBehaviour {
 
         
 		// move ball
-		if (ballGrabbed && !isBlocking){
+		if (playerScript.ballGrabbed && !isBlocking){
             Vector3 cockBackPos = new Vector3(playerConfigObject.transform.position.x + throwDirection.x * ((collider.bounds.size.magnitude / 1.5f) + handSize.x), playerConfigObject.transform.position.y + handSize.y, playerConfigObject.transform.position.z + handSize.z);
             if (levelManager.IsInGameBounds(cockBackPos))
             {
@@ -898,23 +809,6 @@ public class AI : MonoBehaviour {
         isPausing = false;
     }
 
-    private void CheckHasBallAnim()
-    {
-        
-        if (!ballGrabbed)
-        {
-
-            if (animator.GetBool("hasBall") == true)
-                Invoke("SetHasBallFalse", .25f);
-        }
-        else
-        {
-           
-            if (animator.GetBool("hasBall") == false)
-                animator.SetBool("hasBall", true);
-        }
-        
-    }
 
     private void DepleteStamina(float cost)
     {
@@ -938,17 +832,13 @@ public class AI : MonoBehaviour {
         }
     }
 
-    void SetHasBallFalse()
-    {
-        animator.SetBool("hasBall", false);
-    }
 
     private void CheckCharge()
     {
         float chargeRate = 1;  // character dependent??
         float chargeCost = .25f;
 
-        if (ballGrabbed && isCharging)
+        if (playerScript.ballGrabbed && isCharging)
         {
 
             throwCharge += (chargeRate * Time.deltaTime);
@@ -968,12 +858,6 @@ public class AI : MonoBehaviour {
         Vector3 randThrowVec = new Vector3(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(-1f, 1f) * randomThrowFactor / 2, UnityEngine.Random.Range(-1f, 1f) * randomThrowFactor);
 
         return randThrowVec;
-    }
-
-    private void ResetThrowAnimations()
-    {
-            animator.ResetTrigger("Charge");
-       
     }
 
     private bool ThrownByOpp(GameObject ball, int team)
@@ -1023,22 +907,59 @@ public class AI : MonoBehaviour {
 
     public GameObject GetNearestBall()               //reg ball
 	{
-		GameObject nearestBall = null;
-		Vector3 smallest = new Vector3(10000f, 10000f, 10000f);
-		GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball"); 
-		foreach ( GameObject ball in balls)
-		{
-            if (Vector3.Magnitude(playerConfigObject.transform.position - ball.transform.position) < smallest.magnitude)
-                if (ball.GetComponent<Ball>().isSupering == false && !ball.GetComponent<Ball>().grabbed)     // and is on my side ..  see GetBall
-                {                             
-                {
-                    smallest = playerConfigObject.transform.position - ball.transform.position;
-                    nearestBall = ball;
+
+
+        float min = 10000000f;
+        GameObject nearestBall = null;
+        int team = gameObject.GetComponentInParent<Player>().team;
+        float halfCourt = levelManager.stage.halfCourtLine;
+        Vector3 pos = this.parent.transform.position;
+
+        // Debug.Log("team :" + team);
+
+        if (team == 1)
+        {
+            foreach (GameObject ball in levelManager.balls)
+            {
+                Ball ballScript = ball.GetComponent<Ball>();
+                if (ballScript.grounded && !ballScript.grabbed && ball.transform.position.x <= halfCourt - .5 /* && !ballScript.isBeingPursued */)
+                {                 // gameRule config
+                    if (Vector3.Distance(pos, ball.transform.position) < min)
+                    {
+                        if (!ballScript.isSupering)
+                        {
+                            min = Vector3.Distance(pos, ball.transform.position);
+                            nearestBall = ball;
+                            return nearestBall;
+                        }
+                    }
                 }
-			}
-		}
-		return nearestBall;
-	}
+            }
+        }
+        if (team == 2)
+        {
+            foreach (GameObject ball in levelManager.balls)
+            {
+                Ball ballScript = ball.GetComponent<Ball>();
+
+                if (ballScript.grounded && !ballScript.grabbed && ball.transform.position.x >= halfCourt + .5 /* &&  !ballScript.isBeingPursued */)               // gameRule config
+                {
+                    if (Vector3.Distance(pos, ball.transform.position) < min)
+                    {
+                        if (!ballScript.isSupering)
+                        {
+                            min = Vector3.Distance(pos, ball.transform.position);
+                            nearestBall = ball;
+                            return nearestBall;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Debug.Log(" null balls");
+        return nearestBall;
+    }
 
 	
 
@@ -1204,7 +1125,6 @@ public class AI : MonoBehaviour {
                 if (t_sF - t_s0 >= superTime && isSupering)
                 {
                     isSupering = false;
-                    animator.SetBool("Supering", false);
 
                     if (playerScript.super.GetComponent<SuperScript>().type == 1 || playerScript.super.GetComponent<SuperScript>().type == 2)
                     {
@@ -1227,11 +1147,10 @@ public class AI : MonoBehaviour {
                 }
             }
 
-            if (superInput && superCoolDown <= 0 && ballGrabbed)   // super activate
+            if (superInput && superCoolDown <= 0 && playerScript.ballGrabbed)   // super activate
             {
                 t_s0 = Time.realtimeSinceStartup;
                 isSupering = true;
-                animator.SetBool("Supering", true);
                 superCoolDown = transform.parent.gameObject.GetComponent<Player>().power;
 
                 if (playerScript.super.GetComponent<SuperScript>().type == 1 || playerScript.super.GetComponent<SuperScript>().type == 2)
@@ -1285,13 +1204,9 @@ public class AI : MonoBehaviour {
 
         ball.GetComponent<Ball>().Throw(throww, playerScript.color, true, magnetism,targetedOpp,renderLength, 1f);
         levelManager.AddThrow(ball, parent);
-        ballGrabbed = false;
-        throwPower = gameObject.GetComponentInParent<Player>().GetThrowPower0();
+        playerScript.ballGrabbed = false;
+       // throwPower = gameObject.GetComponentInParent<Player>().GetThrowPower0();
 
-        if (animator)
-        {
-            animator.SetBool("hasBall", false);
-        }
     }
 
     private float GetRenderLength()
@@ -1326,7 +1241,7 @@ public class AI : MonoBehaviour {
 			isBlocking = false;
 		}
 
-		if ((blockInput) && superCoolDown <=0 && ballGrabbed) {
+		if ((blockInput) && superCoolDown <=0 && playerScript.ballGrabbed) {
 			isBlocking = true;;
 			superCoolDown = 50f;
 		}
@@ -1540,7 +1455,7 @@ public class AI : MonoBehaviour {
                 {
                     if (opp.GetComponent<Player>().hasAI)
                     {
-                        if (opp.GetComponentInChildren<AI>().ballGrabbed)
+                        if (opp.GetComponentInChildren<AI>().playerScript.ballGrabbed)
                         {
                             returnMe--;
                             returnMe -= (int)(250 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));       //*arbitrary nums
@@ -1553,12 +1468,12 @@ public class AI : MonoBehaviour {
                     }
                     else
                     {
-                        if (opp.GetComponentInChildren<Controller3D>().ballGrabbed)
+                      //  if (opp.GetComponentInChildren<Controller3D>().ballGrabbed)
                         {
                             returnMe--;
                             returnMe -= (int)(350 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));
                         }
-                        else
+                      //  else
                         {
                             returnMe += (int)(200 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));
                         }
@@ -1574,7 +1489,7 @@ public class AI : MonoBehaviour {
               if (!opp.GetComponent<Player>().isOut) {
                     if (opp.GetComponent<Player>().hasAI)
                     {
-                        if (opp.GetComponentInChildren<AI>().ballGrabbed)
+                        if (opp.GetComponentInChildren<AI>().playerScript.ballGrabbed)
                         {
                             returnMe--;
                             returnMe -= (int)(250 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));
@@ -1587,12 +1502,12 @@ public class AI : MonoBehaviour {
                     }
                     else
                     {
-                        if (opp.GetComponentInChildren<Controller3D>().ballGrabbed)
+                      //  if (opp.GetComponentInChildren<Controller3D>().ballGrabbed)
                         {
                             returnMe--;
                             returnMe -= (int)(350 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));
                         }
-                        else
+                      //  else
                         {
                             returnMe += (int)(50 / Vector3.Distance(pos, opp.transform.GetChild(0).transform.position));
                         }
@@ -1632,34 +1547,19 @@ public class AI : MonoBehaviour {
 
     }
 
-    internal void TriggerHeadHitAnimation()
-    {
-        if (animator)
-        {
-            animator.SetTrigger("Head Hit");
-        }
-    }
 
-    internal void TriggerHitAnimation()
-    {
-        if (animator)
-        {
-            animator.SetTrigger("Hit");
-        }
-    }
+
+
 
 
     public void DropBall()
     {
-        ballGrabbed = false;
+        playerScript.ballGrabbed = false;
         ball.GetComponent<Ball>().grabbed = false;
         ball.GetComponent<Rigidbody>().useGravity = true;
         ball.GetComponent<SphereCollider>().enabled = true;
         ball.GetComponent<SpriteRenderer>().enabled = true;
-        if (animator)
-        {
-            animator.SetBool("hasBall", false);
-        }
+
     }
 
     internal bool IsAtNavTarget()
@@ -1835,7 +1735,7 @@ public class AI : MonoBehaviour {
         level = 1;
         navMeshAgent.speed = navSpeed;
         navMeshAgent.acceleration = navXceleration;
-        throwPower = playerScript.throwPower0;
+       // throwPower = playerScript.throwPower0;
         randomThrowFactor = randomThrowFactor0;
         catchProb = .001f;
         catchLagTime = .5f;  // *arb
@@ -1854,22 +1754,6 @@ public class AI : MonoBehaviour {
         levelManager.HitPause();
     }
 
-    public void FaceOpp()
-    {
-        bool isFacingRight = !spriteRenderer.flipX;
-
-        if (playerScript.team == 1 && !isFacingRight)
-        {
-            SpriteFlip();
-        }
-        else
-        {
-            if (playerScript.team == 2 && isFacingRight)
-            {
-                SpriteFlip();
-            }
-        }
-    }
 
 
     public void Init()
@@ -1899,8 +1783,6 @@ public class AI : MonoBehaviour {
         playerConfigObject = playerScript.playerConfigObject;
         playerConfigObject.transform.position = Vector3.zero;
         navMeshAgent = playerConfigObject.GetComponent<NavMeshAgent>();
-        animator = playerConfigObject.GetComponent<Animator>();
-        spriteRenderer = playerConfigObject.GetComponent<SpriteRenderer>();
         rigidbody = playerConfigObject.GetComponent<Rigidbody>();
         collider = playerConfigObject.GetComponent<Collider>();
         sizeX = collider.bounds.max.x - collider.bounds.min.x;
@@ -1948,11 +1830,4 @@ public class AI : MonoBehaviour {
         }
     }
 
-    void ResetDodgeTrigger()
-    {
-        if (animator)
-        {
-            animator.ResetTrigger("Dodge");
-        }
-    }
 }

@@ -32,7 +32,7 @@ public class Retreat : AIState {
         {
             if (!inAction)
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     ai.SetState(ai.throwBall_);
                 }
@@ -58,7 +58,7 @@ public class Retreat : AIState {
         {
             if (!inAction)
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     ai.SetState(ai.throwBall_);
                 }
@@ -84,7 +84,7 @@ public class Retreat : AIState {
         {
             if (!inAction)
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     ai.SetState(ai.throwBall_);
                 }
@@ -110,7 +110,7 @@ public class Retreat : AIState {
         {
             if (!inAction)
             {
-                if (ai.ballGrabbed)
+                if (ai.playerScript.ballGrabbed)
                 {
                     Action(gameManager, ai, 3, Vector3.zero);
                 }
@@ -194,7 +194,7 @@ public class Retreat : AIState {
 
         else
         {
-            ai.FaceOpp();  //please an dthank you lol
+          //  ai.FaceOpp();  //please an dthank you lol
 
             inAction = false;
             ai.EndAgentNavigation();

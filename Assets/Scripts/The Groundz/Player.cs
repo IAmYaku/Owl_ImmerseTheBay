@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
 
     private bool dodgeActivated;
 
-
+    public bool ballGrabbed;
     GameObject ball;
 
 
@@ -129,19 +129,21 @@ public class Player : MonoBehaviour
         //
 
 
-
-
         Ball ballComp =  ball.GetComponent<Ball>();
 
         ballComp.SetThrown(team);
        
 
         levelManager.AddThrow(ball, this.gameObject);
+
+        ball = null;
+        ballGrabbed = false;
     }
 
     public void BallGrab(SpatialHand hand, SpatialGrabbable grabbable)
     {
         ball = grabbable.gameObject;
+        ballGrabbed = true;
 
         print(ball.name + " grabbed");
         
@@ -149,6 +151,8 @@ public class Player : MonoBehaviour
 
         ballComp.grounded = false;                         
 
+
+        //Caught from player logic
         if (ballComp.ThrownByOpp(team))
         {
 
