@@ -17,13 +17,12 @@ public class AI : MonoBehaviour {
 
     public GameObject playerConfigObject;
 
-
+    bool isReaching;
 
     public NavMeshAgent navMeshAgent;
     public Transform target;
 
-    int [,] board; //   <-- interesting
-	//public Board boardManager;
+    
 	public enum Type {aggresive,timid,random};
 	public Type type;
 
@@ -235,93 +234,93 @@ public class AI : MonoBehaviour {
             {
 
                 GameObject nearestBall = GetNearestBall();
-
-                Vector3 move = (nearestBall.transform.position - this.parent.transform.position).normalized;
-
-                foundryPlayerScript.Move(move, Time.deltaTime);
-
-                float reachThresh = .5f;
-                float ballDistance = Vector3.Distance(nearestBall.transform.position, this.parent.transform.position);
-
-                if (ballDistance <= reachThresh )
+                if (nearestBall)
                 {
-                     GrabBall(nearestBall);
-                    
-                }
+                    Vector3 move = (nearestBall.transform.position - this.parent.transform.position).normalized;
 
+                    foundryPlayerScript.Move(move, Time.deltaTime);
 
-            }
-            
+                    float reachThresh = .5f;
+                    float ballDistance = Vector3.Distance(nearestBall.transform.position, this.parent.transform.position);
 
-            /*
-
-            if (navMeshAgent.isOnNavMesh )
-            {
-                //     print(" IsOnNAvMesh" );
-
-
-                if (!isKnockedOut && !isPausing)
-                {
-
-                    if (playerConfigObject.GetComponent<PlayerConfiguration>().ballContact && !ballGrabbed)
+                    if (ballDistance <= reachThresh)
                     {
-                        aiState = getBall_;
+                        GrabBall(nearestBall);
 
                     }
-
-                   // print(" ");
-                   // print("aiState = " + aiState.GetName());
-                    aiState.Update(gameManager, this);
-             
-                    aiStateDisplayString = aiState.GetName();
-
-
-                    MoveInput();
-                    GrabInput();
-                    SuperInput();
-                    BlockInput();
-
                 }
-                else
-                {
-                    HandleContact();
-  
-                }
+
             }
 
             else
             {
-                print(" !OnNAvMesh");
+
+                foundryPlayerScript.rightHand.Release();
             }
 
-             */
+
 
         }
-
-        else
-        {
-                                                                                                                                                                                                                                                            
-          //   EndAgentNavigation();                          // place onStandby
-        }
-
     }
 
-    private void GrabBall(GameObject ball) { 
+    private void GrabBall(GameObject ball) {
 
-        foundryPlayerScript.trackers.rightHand.gameObject.SetActive(true);
-        foundryPlayerScript.trackers.rightHand.localPosition = Quaternion.Inverse(parent.transform.rotation) * (ball.transform.position - parent.transform.position);
-        foundryPlayerScript.trackers.rightHand.localRotation = Quaternion.Inverse(parent.transform.rotation) * ball.transform.rotation;
-
-
-        float handFromBallDistance = Vector3.Distance(foundryPlayerScript.trackers.rightHand.position, ball.transform.position);
-
-            print("AI handFromBallDistance = " + handFromBallDistance);
-        if (handFromBallDistance < .1f)
+        if (!isReaching)
         {
-            foundryPlayerScript.rightHand.Grab();
+            foundryPlayerScript.SetEnabledTrackers(2, true);
+            foundryPlayerScript.trackers.rightHand.localPosition = Quaternion.Inverse(parent.transform.rotation) * (ball.transform.position - parent.transform.position);
+            foundryPlayerScript.trackers.rightHand.localRotation = Quaternion.Inverse(parent.transform.rotation) * ball.transform.rotation;
+            isReaching = true;
+
+        }
+
+        float handFromBallDistance = Vector3.Distance(foundryPlayerScript.rightHand.transform.position, ball.transform.position);
+
+        if (foundryPlayerScript.rightHand.GetComponent<Foundry.SpatialHand>().highlightInfo.currentTarget != null)
+        {
+            if (foundryPlayerScript.rightHand.GetComponent<Foundry.SpatialHand>().highlightInfo.currentTarget.gameObject == ball)
+            {
+                foundryPlayerScript.rightHand.Grab();
+            }
         }
        
     }
+
+
+    public GameObject GetNearestOpp()
+    {
+        Vector3 pos = parent.transform.position;
+        Vector3 move;
+        float min = 10000000f;
+        GameObject closestOpp = null;
+
+        if (playerScript.team == 1)
+        {
+            foreach (GameObject opp in levelManager.tm2.players)
+            {
+                if (Vector3.Distance(opp.transform.position, pos) < min)
+                {
+                    closestOpp = opp;
+                }
+            }
+        }
+        else
+        {
+            foreach (GameObject opp in levelManager.tm1.players)
+            {
+                if (Vector3.Distance(opp.transform.position, pos) < min)
+                {
+                    closestOpp = opp;
+                }
+            }
+        }
+        return closestOpp;
+    }
+
+
+
+
+
     #region Move Logic
     void MoveInput()
     {

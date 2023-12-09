@@ -12,22 +12,17 @@ public class PlayerConfiguration : MonoBehaviour
 
     public Foundry.Player foundryPlayerScript;
 
-    AI ai;
+    public AI ai;
 
     static int healthStock = 3;    // Set from gameRule    
 
     
-    public Animator animator;
+
     public AudioSource audioSource;
     public Rigidbody rigidbody;
     public SphereCollider headCollider;   // extra points +?, sfx, vfx, etc
     public CapsuleCollider bodyCollider;
 
-    public RuntimeAnimatorController play;
-    public RuntimeAnimatorController win;
-
-    public Material out_mat;
-    public Material default_mat;
 
     bool onGround;
     bool isJumping;
@@ -63,13 +58,14 @@ public class PlayerConfiguration : MonoBehaviour
         {
             controller3D = player.controller3DObject.GetComponent<Controller3D>();
         }
+        */
 
         if (!ai)
         {
-            ai = player.aiObject.GetComponent<AI>();
+            ai = GameObject.Find("AI").GetComponent<AI>();
         }
 
-        */
+        
 
         if (!levelManager)
         {
@@ -221,13 +217,6 @@ public class PlayerConfiguration : MonoBehaviour
 
     }
 
-    internal void TriggerHitAnimation()
-    {
-        if (animator)
-        {
-            animator.SetTrigger("Hit");
-        }
-    }
 
     private void TriggerKnockBack(Vector3 ballVelocity, bool ballIsSupered)                                                                    // important to revitalize
     {
@@ -276,8 +265,4 @@ public class PlayerConfiguration : MonoBehaviour
         levelManager.HitPause();
     }
 
-    internal void SetOutAnimation(bool v)
-    {
-        animator.SetBool("isOut", v);
-    }
 }

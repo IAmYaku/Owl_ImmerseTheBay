@@ -140,6 +140,25 @@ public class Player : MonoBehaviour
         ballGrabbed = false;
     }
 
+    public void AIBallReleased()
+    {
+        AI ai = playerConfigObject.GetComponent<PlayerConfiguration>().ai;
+        GameObject nearestPlayer = ai.GetNearestOpp();
+        Vector3 throwDir = nearestPlayer.transform.position - this.transform.position;
+
+        Ball ballComp = ball.GetComponent<Ball>();
+
+        ball.GetComponent<Rigidbody>().velocity = throwDir * 3f;
+
+        ballComp.SetThrown(team);
+
+
+        levelManager.AddThrow(ball, this.gameObject);
+
+        ball = null;
+        ballGrabbed = false;
+    }
+
     public void BallGrab(SpatialHand hand, SpatialGrabbable grabbable)
     {
         ball = grabbable.gameObject;
