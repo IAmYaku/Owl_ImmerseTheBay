@@ -667,6 +667,11 @@ public class Ball : MonoBehaviour {
 
     internal bool CheckPlayerHit(int team)
     {
+       // print("team = " + team);
+       // print("grounded = " + grounded);
+       // print("thrownBy2 = " + thrownBy2);
+       // print("thrownBy1 = " + thrownBy1);
+
         if (team == 1)
         {
             if (thrownBy2 && grounded == false)

@@ -22,6 +22,7 @@ public class PlayerConfiguration : MonoBehaviour
     public Rigidbody rigidbody;
     public SphereCollider headCollider;   // extra points +?, sfx, vfx, etc
     public CapsuleCollider bodyCollider;
+    // GameObject super
 
 
     bool onGround;

@@ -20,9 +20,7 @@ public class Player : MonoBehaviour
 
     int playerIndex;   // < should be alligned w Foundry
 
-    public GameObject playerConfigObject;  // 0
-
-    public GameObject super;
+    public GameObject playerConfigObject;  // 
 
     public bool hasAI;
 
@@ -161,6 +159,14 @@ public class Player : MonoBehaviour
 
     public void BallGrab(SpatialHand hand, SpatialGrabbable grabbable)
     {
+
+        if (hasAI)
+        {
+            AI ai = playerConfigObject.GetComponent<PlayerConfiguration>().ai;
+            ai.CockBack();
+        }
+
+
         ball = grabbable.gameObject;
         ballGrabbed = true;
 
@@ -197,6 +203,8 @@ public class Player : MonoBehaviour
 
             print("~!Caught!~");
         }
+
+
     }
 
 

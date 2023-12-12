@@ -255,7 +255,7 @@ public class AI : MonoBehaviour {
             else
             {
 
-                foundryPlayerScript.rightHand.Release();
+               foundryPlayerScript.rightHand.Release();
             }
 
 
@@ -269,7 +269,6 @@ public class AI : MonoBehaviour {
         {
             foundryPlayerScript.SetEnabledTrackers(2, true);
             foundryPlayerScript.trackers.rightHand.localPosition = Quaternion.Inverse(parent.transform.rotation) * (ball.transform.position - parent.transform.position);
-            foundryPlayerScript.trackers.rightHand.localRotation = Quaternion.Inverse(parent.transform.rotation) * ball.transform.rotation;
             isReaching = true;
 
         }
@@ -317,12 +316,17 @@ public class AI : MonoBehaviour {
         return closestOpp;
     }
 
+    public void CockBack()
+    {
+        float stretchVal = 2f;
+        Vector3 offset = new Vector3(.5f, 1f, .5f);
 
+        foundryPlayerScript.SetEnabledTrackers(2, true);
+        foundryPlayerScript.trackers.rightHand.localPosition = Quaternion.Inverse(parent.transform.rotation) * (offset);
+    }
 
-
-
-    #region Move Logic
-    void MoveInput()
+        #region Move Logic
+        void MoveInput()
     {
 
 
@@ -1095,7 +1099,7 @@ public class AI : MonoBehaviour {
 
     void SuperInput()
     {
-
+        /*
         if (level == 3)
         {
             if (superCoolDown > 0)
@@ -1180,6 +1184,7 @@ public class AI : MonoBehaviour {
 
             }
         }
+        */
     }
 
     private void SuperThrow(Vector3 throww, string type)

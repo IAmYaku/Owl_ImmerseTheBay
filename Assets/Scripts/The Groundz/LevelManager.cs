@@ -1451,6 +1451,8 @@ public class LevelManager : MonoBehaviour
             }
         }
 
+        int roundsToWin = 1 /*gameRule.roundsToWin*/;
+
         if (i == tm1.players.Count)
         {
 
@@ -1464,7 +1466,7 @@ public class LevelManager : MonoBehaviour
                // PlayWhistle();
                 print("~!!! Team 2 WiNS !!!~");
             }
-            if (team2Points > gameRule.roundsToWin)
+            if (team2Points > roundsToWin)
             {
                 team2Wins = true;
             }
@@ -1485,7 +1487,7 @@ public class LevelManager : MonoBehaviour
                 print("~!!! Team 1 WiNS !!!~");
             }
 
-            int roundsToWin = 1 /*gameRule.roundsToWin*/;
+           
 
             if (team1Points > roundsToWin )
             {

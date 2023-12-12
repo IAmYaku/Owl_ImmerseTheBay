@@ -7795,7 +7795,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   number: 0
   playerConfigObject: {fileID: 2160893268375991239}
-  super: {fileID: 0}
   hasAI: 1
   color: {r: 0, g: 0, b: 0, a: 0}
   team: 1
